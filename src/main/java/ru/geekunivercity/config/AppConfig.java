@@ -27,7 +27,7 @@ public class AppConfig {
     @Bean(name="dataSource")
     public DataSource getDataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:5432/sheduler");
+        dataSource.setUrl("jdbc:mysql://localhost:5432/sheduler");//здесь 3306, а не 5432, насколько я понимаю?
         dataSource.setUsername("admin");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setPassword("admin");
