@@ -1,6 +1,6 @@
-package ru.geekunivercity.service;
+package ru.geekunivercity.service.task;
 
-import ru.geekunivercity.entity.TaskCategory;
+import ru.geekunivercity.entity.task.TaskCategory;
 
 import java.util.Set;
 

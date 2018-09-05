@@ -1,8 +1,8 @@
-package ru.geekunivercity.service;
+package ru.geekunivercity.service.task;
 
-import ru.geekunivercity.entity.Task;
-import ru.geekunivercity.entity.TaskImportance;
-import ru.geekunivercity.entity.TaskStatus;
+import ru.geekunivercity.entity.task.Task;
+import ru.geekunivercity.entity.task.TaskImportance;
+import ru.geekunivercity.entity.task.TaskStatus;
 
 import java.util.Date;
 import java.util.Set;

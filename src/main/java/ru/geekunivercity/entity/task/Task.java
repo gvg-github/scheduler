@@ -1,12 +1,11 @@
-package ru.geekunivercity.entity;
+package ru.geekunivercity.entity.task;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Task extends AbstractEntity implements Serializable {
+public class Task extends AbstractEntity {
 
     @NotNull
     @Column(nullable = false)

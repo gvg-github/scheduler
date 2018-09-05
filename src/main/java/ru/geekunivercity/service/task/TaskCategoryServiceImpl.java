@@ -1,10 +1,10 @@
-package ru.geekunivercity.service;
+package ru.geekunivercity.service.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.geekunivercity.entity.TaskCategory;
-import ru.geekunivercity.repository.TaskCategoryRepository;
+import ru.geekunivercity.entity.task.TaskCategory;
+import ru.geekunivercity.repository.task.TaskCategoryRepository;
 
 import java.util.Optional;
 import java.util.Set;

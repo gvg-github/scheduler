@@ -1,13 +1,12 @@
-package ru.geekunivercity.entity;
+package ru.geekunivercity.entity.task;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class TaskCategory extends AbstractEntity implements Serializable {
+public class TaskCategory extends AbstractEntity {
 
     @NotNull
     @Column(nullable = false)

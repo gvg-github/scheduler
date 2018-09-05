@@ -1,4 +1,4 @@
-package ru.geekunivercity.entity;
+package ru.geekunivercity.entity.task;
 
 public enum TaskImportance {
     HIGH,
