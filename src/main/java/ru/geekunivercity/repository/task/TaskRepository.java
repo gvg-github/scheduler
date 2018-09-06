@@ -54,8 +54,8 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     void setTaskName(String taskName, String taskId);
 
     @Modifying
-    @Query("update Task task set task.plannedStartTime = :taskPlannedStartTime where a.id = :taskId")
-    void setTaskPlannedStartTime(@Param("taskPlannedStartTime") Date taskPlannedStartTime, @Param("taskId") String taskId);
+    @Query("update Task task set task.plannedStartTime = ?1 where task.id = ?2")
+    void setTaskPlannedStartTime(Date taskPlannedStartTime, String taskId);
 
     @Modifying
     @Query("update Task task set task.actualStartTime = ?1 where task.id = ?2")

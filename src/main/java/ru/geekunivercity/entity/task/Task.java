@@ -1,5 +1,7 @@
 package ru.geekunivercity.entity.task;
 
+import ru.geekunivercity.entity.user.AppUser;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -46,9 +48,9 @@ public class Task extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TaskCategory taskCategory;
 
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private AppUser appUser;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AppUser appUser;
 
     public Task() {
     }
