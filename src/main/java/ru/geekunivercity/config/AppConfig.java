@@ -18,10 +18,10 @@ import java.util.Properties;
  * @author Valeriy Gyrievskikh
  * @since 02.09.2018.
  */
-//@Configuration
-//@EnableJpaRepositories("ru.geekunivercity.repository")
-//@EnableTransactionManagement
-//@ComponentScan("ru.geekunivercity.service")
+@Configuration
+@EnableJpaRepositories("ru.geekunivercity.repository")
+@EnableTransactionManagement
+@ComponentScan("ru.geekunivercity.service")
 public class AppConfig {
 
     @Bean(name="dataSource")
