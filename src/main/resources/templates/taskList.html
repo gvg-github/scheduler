@@ -91,16 +91,17 @@
                         <td th:utext="${#dates.format(task.actualEndTime, 'HH:mm')}"></td>
                         <td>
                             <form th:action="@{/task/edit}" th:method="post">
-                                <button class="btn btn-success" type="submit">
+                                <button class="btn btn-success" type="submit" name="taskId" th:value="${task.id}">
                                     <i class="far fa-edit"></i>
                                 </button>
                             </form>
                         </td>
                         <td>
-                            <button class="btn btn-success" type="button"
-                                    th:action="@{/task/delete}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <form th:action="@{/task/delete}" th:method="post">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     </tbody>
