@@ -15,8 +15,12 @@ import ru.geekunivercity.service.appuser.AppUserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
 	private AppUserDetailsServiceImpl userDetailsService;
+
+	@Autowired
+	public SecurityConfiguration(AppUserDetailsServiceImpl userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -49,4 +53,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
+
 }
