@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          type="text/css"
+          href="../static/style.css"
+          th:href="@{/style.css}">
+</head>
+<body>
+<div class="container-fluid">
+    <header></header>
+    <div id="center" class="row flex-xl-nowrap">
+        <main role="main" class="container-fluid">
+            <div id="datePanel"  class="m-b-2">
+                <h3 th:utext="${#dates.format(date, 'dd.MMM.yyyy')}"></h3>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#changeDate"
+                        aria-expanded="false" aria-controls="changeDate">Выбрать дату</button>
+                <div class="collapse" id="changeDate">
+                    <div class="card card-body">
+                        <form class="input-group mb-3" th:action="@{/taskList/changeDate}">
+                            <input class="form-control" type="date">
+                            <div class="input-group-append">
+                                <input type="submit" value="Перейти" class="btn btn-secondary" style="width: auto">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="m-b-2">
+
+                <h3>План</h3>
+                <table id="plannedData" class="table table-striped m-tb-1">
+                    <thead>
+                    <tr class="sup-head">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th colspan="3" class="align-center border">Планируемое время</th>
+                        <th></th>
+                        <th colspan="3" class="align-center border">Фактическое время</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr class="sub-head">
+                        <th>Статус</th>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Приоритет</th>
+                        <th class="border-left">Начало</th>
+                        <th>Длительность</th>
+                        <th class="border-right">Время окончания</th>
+                        <th>Комментарии</th>
+                        <th class="border-left">Начало</th>
+                        <th>Длительность</th>
+                        <th class="border-right">Время окончания</th>
+                        <th>Редактирование</th>
+                        <th>Удаление</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="task : ${taskList}">
+                        <td th:utext="${task.taskStatus}"></td>
+                        <td th:utext="${task.name}"></td>
+                        <td th:utext="${task.taskCategory.name}"></td>
+                        <td th:utext="${task.taskImportance}"></td>
+
+                        <td th:utext="${#dates.format(task.plannedStartTime, 'HH:mm')}"></td>
+                        <td></td>
+                        <!--<td th:with="endTime=${task.plannedEndTime} - ${task.plannedStartTime}"-->
+                        <!--th:utext="${#dates.format(endTime, 'HH:mm')}"></td>-->
+                        <td th:utext="${#dates.format(task.plannedEndTime, 'HH:mm')}"></td>
+
+                        <td th:utext="${task.taskComment}"></td>
+
+                        <td th:utext="${#dates.format(task.actualStartTime, 'HH:mm')}"></td>
+                        <td></td>
+                        <!--<td th:with="endTime=${(task.actualEndTime - task.actualStartTime)}"-->
+                        <!--th:utext="${#dates.hour(endTime)}+':'+${#dates.minute(endTime)}"></td>-->
+                        <td th:utext="${#dates.format(task.actualEndTime, 'HH:mm')}"></td>
+                        <td>
+                            <form th:action="@{/task/edit}" th:method="post">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="far fa-edit"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <button class="btn btn-success" type="button"
+                                    th:action="@{/task/delete}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </main>
+    </div>
+    <footer></footer>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>
