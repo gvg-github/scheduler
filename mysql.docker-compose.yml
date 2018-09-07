@@ -1,0 +1,12 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: gbscheduler
+      MYSQL_ROOT_PASSWORD: qwerty
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./var/data/mysql:/var/lib/mysql

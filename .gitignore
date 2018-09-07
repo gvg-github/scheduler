@@ -23,3 +23,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+/var/*
+!/var/data/mysql
+/var/data/mysql/*
