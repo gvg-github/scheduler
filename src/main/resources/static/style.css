@@ -8,10 +8,10 @@
 .m-b-2 {
   margin-bottom: 2em;
 }
-.sup-head th {
+table .sup-head th {
   border-bottom: 0;
 }
-.sub-head th {
+table .sub-head th {
   border-top: 0;
 }
 .align-center {
