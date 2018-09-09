@@ -19,11 +19,13 @@
 <div class="container-fluid">
     <header></header>
     <div id="center" class="row flex-xl-nowrap">
-        <main role="main" class="container-fluid">
-            <div id="datePanel"  class="m-b-2">
-                <h3 th:utext="${#dates.format(date, 'dd.MMM.yyyy')}"></h3>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#changeDate"
-                        aria-expanded="false" aria-controls="changeDate">Выбрать дату</button>
+        <main role="main" class="container">
+            <div id="datePanel" class="my-3">
+                <h3>
+                    <span th:utext="'Дата: '+${#dates.format(date, 'dd.MMM.yyyy')}"></span>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#changeDate"
+                            aria-expanded="false" aria-controls="changeDate">Выбрать дату</button>
+                </h3>
                 <div class="collapse" id="changeDate">
                     <div class="card card-body">
                         <form class="input-group mb-3" th:action="@{/taskList/changeDate}">
@@ -35,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="m-b-2">
+            <div class="my-3">
 
                 <h3>План</h3>
                 <table id="plannedData" class="table table-striped m-tb-1">
@@ -73,19 +75,12 @@
                         <td th:utext="${task.name}"></td>
                         <td th:utext="${task.taskCategory.name}"></td>
                         <td th:utext="${task.taskImportance}"></td>
-
                         <td th:utext="${#dates.format(task.plannedStartTime, 'HH:mm')}"></td>
-                        <td></td>
-                        <!--<td th:with="endTime=${task.plannedEndTime} - ${task.plannedStartTime}"-->
-                        <!--th:utext="${#dates.format(endTime, 'HH:mm')}"></td>-->
+                        <td th:utext="${#dates.format(task.plannedDuration, 'HH:mm')}"></td>
                         <td th:utext="${#dates.format(task.plannedEndTime, 'HH:mm')}"></td>
-
                         <td th:utext="${task.taskComment}"></td>
-
                         <td th:utext="${#dates.format(task.actualStartTime, 'HH:mm')}"></td>
-                        <td></td>
-                        <!--<td th:with="endTime=${(task.actualEndTime - task.actualStartTime)}"-->
-                        <!--th:utext="${#dates.hour(endTime)}+':'+${#dates.minute(endTime)}"></td>-->
+                        <td th:utext="${#dates.format(task.plannedDuration, 'HH:mm')}"></td>
                         <td th:utext="${#dates.format(task.actualEndTime, 'HH:mm')}"></td>
                         <td>
                             <form th:action="@{/task/edit}" th:method="post">
@@ -96,7 +91,7 @@
                         </td>
                         <td>
                             <form th:action="@{/task/delete}" th:method="post">
-                                <button class="btn btn-success" type="submit">
+                                <button class="btn btn-success" type="submit" name="taskId" th:value="${task.id}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
