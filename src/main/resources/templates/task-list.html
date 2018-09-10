@@ -19,7 +19,7 @@
 <div class="container-fluid">
     <header></header>
     <div id="center" class="row flex-xl-nowrap">
-        <main role="main" class="container">
+        <main role="main" class="container-fluid">
             <div id="datePanel" class="my-3">
                 <h3>
                     <span th:utext="'Дата: '+${#dates.format(date, 'dd.MMM.yyyy')}"></span>
@@ -38,7 +38,6 @@
                 </div>
             </div>
             <div class="my-3">
-
                 <h3>План</h3>
                 <table id="plannedData" class="table table-striped m-tb-1">
                     <thead>
