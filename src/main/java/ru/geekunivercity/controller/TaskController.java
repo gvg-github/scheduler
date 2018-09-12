@@ -1,4 +1,4 @@
-package ru.gvg.controller;
+package ru.geekunivercity.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
