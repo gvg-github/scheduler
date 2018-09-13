@@ -19,26 +19,24 @@ import java.util.Set;
 @Service("userDetailsService")
 public class AppUserDetailsServiceImpl implements UserDetailsService {
 
-	private AppUserRepository appUserRepository;
-
-    @Autowired
-    public AppUserDetailsServiceImpl(AppUserRepository appUserRepository) {
-        this. appUserRepository = appUserRepository;
-    }
+	@Autowired
+	private AppUserRepository userRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		AppUser appUser = appUserRepository.findByEmail(email);
+		try {
+			AppUser user = userRepository.findByEmail(email);
 
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		for (Role role : appUser.getRoles()){
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+			Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+			for (Role role : user.getRoles()){
+				grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+			}
+
+			return new User(user.getEmail(), user.getPassword(), grantedAuthorities);
+		} catch (Exception e) {
+			throw new UsernameNotFoundException("User not found!");
 		}
-
-        UserDetails userDetails = new User(appUser.getEmail(), appUser.getPassword(), grantedAuthorities);
-
-		return userDetails;
 	}
 
 }
