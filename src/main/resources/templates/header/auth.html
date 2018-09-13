@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorized header</title>
+    <style th:replace="~{css-script/css-template :: styles}"></style>
+</head>
+<body>
+    <div th:fragment="header">
+        <header class="navbar navbar-expand navbar-dark bg-primary">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-primary border-light"  role="button" th:href="@{/}" th:utext="Главная"></a>
+                    </li>
+                </ul>
+                <div class="inner-a-m row align-items-center">
+                    <span class="text-white" th:utext="${user.name}">Имя</span>
+                    <a class="btn btn-light" th:href="@{/user-profile}" th:utext="Профиль"></a>
+                    <a class="btn btn-outline-light" role="button" th:href="@{/logout}" th:utext="Выход"></a>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div th:replace="~{css-script/script-template :: scripts}"></div>
+</body>
+</html>
