@@ -59,6 +59,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			user.setEmail(userName);
 			user.setFirstName("admin");
 			user.setLastName("admin");
+			user.setEnabled(true);
 			user.setPassword("gb1234");
 			Role[] userRole = new Role[]{roleRepository.findByName("ROLE_USER"),roleRepository.findByName("ROLE_ADMIN")};
 			user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
