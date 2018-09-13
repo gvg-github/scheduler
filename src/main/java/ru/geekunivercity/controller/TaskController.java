@@ -54,7 +54,7 @@ public class TaskController {
             AppUser user = userService.findByEmail(userEmail);
             if (user != null) {
                 model.put("taskList", taskService.getTaskSetByActualStartTimeAndAppUserId(new Date(), user.getId()));
-                return "task-edit";
+                return "task-list";
             }
         }
         return "login";
@@ -69,7 +69,7 @@ public class TaskController {
         String userEmail = "";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            Object userDetails = authentication.getDetails();
+            Object userDetails = authentication.getPrincipal();
             if (userDetails instanceof UserDetails) {
                 userEmail = ((UserDetails) userDetails).getUsername();
             }
