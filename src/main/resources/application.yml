@@ -39,7 +39,7 @@ spring:
 
   ## DATASOURCE
   datasource:
-    url: jdbc:mysql://localhost:13306/gbscheduler?useSSL=false
+    url: jdbc:mysql://localhost:3306/gbscheduler?useSSL=false
     username: root
     password: qwerty
     driver-class-name: com.mysql.jdbc.Driver

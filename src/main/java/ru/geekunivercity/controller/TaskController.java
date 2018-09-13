@@ -1,6 +1,10 @@
 package ru.geekunivercity.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,48 +33,70 @@ public class TaskController {
      * Сервис для работы с пользователями.
      */
     @Autowired
-    AppUserServiceImpl userService;
+    private AppUserServiceImpl userService;
 
     /**
      * Сервис для работы с задачами.
      */
     @Autowired
-    TaskServiceImpl taskService;
+    private TaskServiceImpl taskService;
 
     /**
-     * Метод возвращает список задач с отбором по пользователю и текущей дате.
+     * Метод возвращает список задач с отбором по текущему пользователю и текущей дате.
      *
-     * @param userEmail Почта пользователя (для идентификации пользователя).
-     * @param model     Список задач.
-     * @return Страница списка задач.
+     * @param model Список задач.
+     * @return Страница списка задач или страница логина, если не удалось определить текущего пользователя.
      */
     @RequestMapping(value = {"/task-list"}, method = RequestMethod.GET)
-    public String tasksList(@RequestParam("email") String userEmail, Map<String, Object> model) {
-        AppUser user = userService.findByEmail(userEmail);
-        if (user == null) {
-            return "login";
+    public String tasksList(Map<String, Object> model) {
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser user = userService.findByEmail(userEmail);
+            if (user != null) {
+                model.put("taskList", taskService.getTaskSetByActualStartTimeAndAppUserId(new Date(), user.getId()));
+                return "task-edit";
+            }
         }
-        model.put("taskList", taskService.getTaskSetByActualStartTimeAndAppUserId(new Date(), user.getId()));
-        return "task-list";
+        return "login";
+    }
+
+    /**
+     * Метод возвращает email авторизованного пользователя.
+     *
+     * @return email или "" если не удалось определить авторизованного пользователя..
+     */
+    private String getEmailAuthUser() {
+        String userEmail = "";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            Object userDetails = authentication.getDetails();
+            if (userDetails instanceof UserDetails) {
+                userEmail = ((UserDetails) userDetails).getUsername();
+            }
+        }
+        return userEmail;
     }
 
     /**
      * Метод создает новую задачу с привязкой к текущему пользователю.
      *
-     * @param userEmail Почта пользователя (для идентификации пользователя).
-     * @param model     Созданная задача.
+     * @param model Созданная задача.
      * @return Страница редактирования задачи.
      */
     @RequestMapping(value = {"/task-create"}, method = RequestMethod.GET)
-    public String taskCreate(@RequestParam("email") String userEmail, Map<String, Object> model) {
-        Task task = new Task();
-        AppUser user = userService.findByEmail(userEmail);
-        if (user == null) {
-            return "redirect:/task/task-list";
+    public String taskCreate(Map<String, Object> model) {
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser user = userService.findByEmail(userEmail);
+            if (user != null) {
+                Task task = new Task();
+                task.setAppUser(user);
+                task.setTaskStatus(TaskStatus.AWAITS_EXECUTION);
+                model.put("task", task);
+                return "task-edit";
+            }
         }
-        task.setTaskStatus(TaskStatus.AWAITS_EXECUTION);
-        model.put("task", task);
-        return "task-edit";
+        return "redirect:/task/task-list";
     }
 
     /**

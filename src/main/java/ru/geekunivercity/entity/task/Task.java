@@ -1,5 +1,6 @@
 package ru.geekunivercity.entity.task;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.geekunivercity.entity.user.AppUser;
 
 import javax.persistence.*;
@@ -16,19 +17,23 @@ public class Task extends AbstractEntity {
     @NotNull
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date plannedStartTime;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date actualStartTime;
 
     @NotNull
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date plannedEndTime;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date actualEndTime;
 
     @NotNull
@@ -127,11 +132,11 @@ public class Task extends AbstractEntity {
         this.taskComment = taskComment;
     }
 
-//    public AppUser getAppUser() {
-//        return appUser;
-//    }
+    public AppUser getAppUser() {
+        return appUser;
+    }
 
-//    public void setAppUser(AppUser appUser) {
-//        this.appUser = appUser;
-//    }
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
 }
