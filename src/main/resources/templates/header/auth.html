@@ -16,7 +16,9 @@
                     </li>
                 </ul>
                 <div class="inner-a-m row align-items-center">
-                    <span class="text-white" th:utext="${user.name}">Имя</span>
+                    <div th:if="${user}">
+                        <span class="text-white" th:utext="${user.name}">Имя</span>
+                    </div>
                     <a class="btn btn-light" th:href="@{/user-profile}" th:utext="Профиль"></a>
                     <a class="btn btn-outline-light" role="button" th:href="@{/logout}" th:utext="Выход"></a>
                 </div>
