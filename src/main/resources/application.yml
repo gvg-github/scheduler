@@ -109,3 +109,15 @@ spring:
 #    servlet.content-type: text/html
     # Suffix that gets appended to view names when building a URL.
     suffix: .html
+
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    schemas:
+      - gbscheduler
+    encoding: UTF-8
+    locations:
+      - classpath:db/mysql/migrations
+    baseline-on-migrate: true
+    clean-on-validation-error: true

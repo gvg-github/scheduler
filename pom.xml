@@ -22,6 +22,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <mysql.driver.version>5.1.46</mysql.driver.version>
+        <database.url>jdbc:mysql://localhost:13306/gbscheduler?useSSL=false</database.url>
+        <database.username>root</database.username>
+        <database.password>qwerty</database.password>
+        <database.driver>com.mysql.jdbc.Driver</database.driver>
+        <flyway.version>5.1.4</flyway.version>
     </properties>
 
     <dependencies>
@@ -36,6 +42,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.driver.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -88,6 +95,11 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -95,6 +107,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <driver>${database.driver}</driver>
+                    <url>${database.url}</url>
+                    <user>${database.username}</user>
+                    <password>${database.password}</password>
+                    <schemas>
+                        <schema>gbscheduler</schema>
+                    </schemas>
+                    <locations>
+                        <location>classpath:db/mysql/migrations</location>
+                    </locations>
+                    <encoding>UTF-8</encoding>
+                    <cleanOnValidationError>true</cleanOnValidationError>
+                </configuration>
             </plugin>
         </plugins>
     </build>

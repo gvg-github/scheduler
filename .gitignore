@@ -24,6 +24,9 @@
 /nbdist/
 /.nb-gradle/
 
-/var/*
-!/var/data/mysql
-/var/data/mysql/*
+var/*
+!var
+var/data/*
+!var/data
+var/data/mysql/*
+!var/data/mysql
