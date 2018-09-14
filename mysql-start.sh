@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export $(grep -v '^#' .env | xargs)
+
 MOUNT_MYSQL_DIR="$PWD/var/data/mysql"
 
 if [ ! -d "$MOUNT_MYSQL_DIR" ]; then
