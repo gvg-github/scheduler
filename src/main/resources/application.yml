@@ -106,6 +106,6 @@ spring:
     # Maximum size of data buffers used for writing to the response, in bytes.
     reactive.max-chunk-size: 0
     # Content-Type value written to HTTP responses.
-#    servlet.content-type: text/html
+    servlet.content-type: text/html
     # Suffix that gets appended to view names when building a URL.
     suffix: .html
