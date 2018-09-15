@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-//	TODO make it work!!! (encoder)
+	//	TODO make it work!!! (encoder)
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -64,12 +64,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						})
 						.and().logout()
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-						.logoutSuccessUrl("/welcome").and().exceptionHandling()
-
-						;
+						.logoutSuccessUrl("/welcome").and().exceptionHandling();
 	}
 
-//TODO (encoder)
+	//TODO (encoder)
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());//.passwordEncoder(passwordEncoder())
