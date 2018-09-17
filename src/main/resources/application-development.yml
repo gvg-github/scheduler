@@ -12,9 +12,9 @@ management:
 ## App info in Actuator
 info:
   app:
-    name: @name@"
+    name: @name@
     description: @description@
-    version: @version@"
+    version: @version@
 
 logging:
   level.org.hibernate.SQL: DEBUG
