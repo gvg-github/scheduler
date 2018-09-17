@@ -16,6 +16,8 @@ import ru.geekunivercity.entity.user.AppUser;
 import ru.geekunivercity.service.task.TaskServiceImpl;
 import ru.geekunivercity.service.appuser.AppUserServiceImpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -54,6 +56,37 @@ public class TaskController {
             AppUser user = userService.findByEmail(userEmail);
             if (user != null) {
                 model.put("taskList", taskService.getTaskSetByActualStartTimeAndAppUserId(new Date(), user.getId()));
+                model.put("date", new Date());
+                return "task-list";
+            }
+        }
+        return "login";
+    }
+
+    /**
+     * Метод возвращает список задач с отбором по текущему пользователю и выбранной дате.
+     *
+     * @param model Список задач.
+     * @return Страница списка задач, страница списка задач с текущей датой, если не удалось определить дату,
+     * или страница логина, если не удалось определить текущего пользователя.
+     */
+    @RequestMapping(value = {"/change-date"}, method = RequestMethod.GET)
+    public String tasksListByDate(@RequestParam String newdate, Map<String, Object> model) {
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser user = userService.findByEmail(userEmail);
+            if (user != null) {
+                Date selectedDate = new Date();
+                SimpleDateFormat format = new SimpleDateFormat();
+                format.applyPattern("yyyy-MM-dd");
+                try {
+                    selectedDate = format.parse(newdate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } finally {
+                    model.put("taskList", taskService.getTaskSetByActualStartTimeAndAppUserId(selectedDate, user.getId()));
+                    model.put("date", selectedDate);
+                }
                 return "task-list";
             }
         }
