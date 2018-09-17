@@ -47,55 +47,41 @@ public class AuthController {
 					BindingResult bindingResult,
 					HttpServletRequest request,
 					RedirectAttributes redir) {
-
 		// Lookup appUser in database by e-mail
 		AppUser appUserExists = userService.findByEmail(appUser.getEmail());
 		modelAndView.setViewName("register");
 		modelAndView.addObject("firstName", requestParams.get("firstName"));
 		modelAndView.addObject("lastName", requestParams.get("lastName"));
 		modelAndView.addObject("email", requestParams.get("email"));
-
 		if (appUserExists != null) {
 			bindingResult.reject("email");
 			redir.addFlashAttribute("errorMessage", "This email is already registered!");
 		}
-
 		if (!bindingResult.hasErrors()) {
 			// new appUser so we create appUser and send confirmation e-mail
 			// Disable appUser until they click on confirmation link in email
 			appUser.setEnabled(false);
-
 			// Generate random 36-character string token for confirmation link
 			appUser.setConfirmationToken(UUID.randomUUID().toString());
-
 			Zxcvbn passwordCheck = new Zxcvbn();
-
 			Strength strength = passwordCheck.measure(requestParams.get("password"));
-
 			if (strength.getScore() < 1) {
 				bindingResult.reject("password");
-
 				redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
-
 				modelAndView.setViewName("redirect:/register");
 				return modelAndView;
 			}
-
 			// Set new password
 			appUser.setPassword(requestParams.get("password"));
 			userService.save(appUser);
-
 			String appUrl = request.getScheme() + "://" + request.getServerName();
-
 			SimpleMailMessage registrationEmail = new SimpleMailMessage();
 			registrationEmail.setTo(appUser.getEmail());
 			registrationEmail.setSubject("Registration Confirmation");
 			registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
 							+ appUrl + "/confirm?token=" + appUser.getConfirmationToken());
 			registrationEmail.setFrom("noreply@domain.com");
-
 			emailService.sendEmail(registrationEmail);
-
 			modelAndView.addObject("confirmationMessage", "A confirmation e-mail has been sent to " + appUser.getEmail());
 			modelAndView.setViewName("register");
 		}
@@ -115,10 +101,9 @@ public class AuthController {
 			modelAndView.addObject("confirmationToken", appUser.getConfirmationToken());
 			// Set appUser to enabled
 			appUser.setEnabled(true);
-
+			appUser.setConfirmationToken(UUID.randomUUID().toString());
 			// Save appUser
 			userService.save(appUser);
-
 			modelAndView.addObject("successMessage", "Your email has been confirmed!");
 		}
 		return modelAndView;
@@ -128,24 +113,21 @@ public class AuthController {
 	public ModelAndView login(
 					@RequestParam(value = "error", required = false) String error,
 					@RequestParam(value = "logout", required = false) String logout) {
-
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("errorMessage", "Invalid username or password!");
 		}
-
 		if (logout != null) {
 			model.addObject("logoutMessage", "You've been logged out successfully.");
 		}
 		model.setViewName("login");
-
 		return model;
 	}
 
 	//TODO replace with homepage
-	@RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
 	public ModelAndView welcome() {
-		ModelAndView model =  new ModelAndView();
+		ModelAndView model = new ModelAndView();
 		model.setViewName("welcome");
 		return model;
 	}
