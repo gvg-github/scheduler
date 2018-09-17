@@ -17,17 +17,6 @@ info:
     version: @version@
 
 logging:
-#  level:
-#    root: @logging.level.root@
-#    org.springframework.web: @logging.level.org.springframework.web@
-#    org.hibernate: @logging.level.org.hibernate@
-#    org.hibernate.SQL: @logging.level.org.hibernate.sql@
-#    org.hibernate.type.descriptor.sql.BasicBinder: @logging.level.org.hibernate.type.descriptor.sql.BasicBinder@
-#    ru.geekunivercity: @logging.level.root@
-#  pattern:
-#    console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{42} - %msg%n"
-#    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{42} - %msg%n"
-#  path: "@app.basedir@/var/logs"
   config: "classpath:logback-@app.env.profile.name@.xml"
 
 ## Spring config
