@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+    <style th:replace="~{css-script/css-template :: styles}"></style>
+</head>
+<body>
+
+    <header th:fragment="non-auth" class="navbar navbar-expand navbar-dark bg-primary">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a th:replace="header-footer/header.html :: a-main"></a>
+                </li>
+            </ul>
+            <div class="inner-a-m row">
+                <a role="button" th:href="@{/login}" class="btn btn-light " th:utext="Вход"></a>
+                <a role="button" th:href="@{/register}" class="btn btn-light" th:utext="Регистрация"></a>
+                <div th:replace="header-footer/header :: lenguage-selection"></div>
+            </div>
+        </div>
+    </header>
+
+    <header th:fragment="auth" class="navbar navbar-expand navbar-dark bg-primary">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a th:replace="header-footer/header :: a-main"></a>
+                </li>
+            </ul>
+            <div class="inner-a-m row align-items-center">
+                <div th:if="${user}">
+                    <span class="text-white" th:utext="${user.name}"></span>
+                </div>
+                <a class="btn btn-light" th:href="@{/user-profile}" th:utext="Профиль"></a>
+                <div th:replace="header-footer/header :: lenguage-selection"></div>
+                <a class="btn btn-outline-light" role="button" th:href="@{/logout}" th:utext="Выход"></a>
+            </div>
+        </div>
+    </header>
+
+    <a th:fragment="a-main" class="btn btn-primary border-light" role="button" th:href="@{/}" th:utext="Главная"></a>
+
+    <div th:fragment="lenguage-selection" class="row m-auto align-items-center border border-light rounded ">
+        <div class="mr-1 pl-2">
+            <span class="text-white">Язык:</span>
+        </div>
+        <div class="dropleft">
+            <button class="bg-info btn btn-primary dropdown-toggle pl-1" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <span th:utext="Русский"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Русский</a>
+            </div>
+        </div>
+    </div>
+
+<div th:replace="~{css-script/script-template :: scripts}"></div>
+</body>
+</html>
