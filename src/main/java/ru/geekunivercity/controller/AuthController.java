@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.geekunivercity.entity.user.AppUser;
 import ru.geekunivercity.service.appuser.AppUserServiceImpl;
-import ru.geekunivercity.security.SecurityService;
 import ru.geekunivercity.service.email.EmailService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +27,6 @@ public class AuthController {
 	private AppUserServiceImpl userService;
 
 	@Autowired
-	private SecurityService securityService;
-
-	@Autowired
 	private EmailService emailService;
 
 	// Return registration form template
@@ -42,6 +38,7 @@ public class AuthController {
 	}
 
 	// Process form input data
+	//TODO transfer the data in case of unsuccessful registration
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView processRegistrationForm(
 					ModelAndView modelAndView,
@@ -53,17 +50,18 @@ public class AuthController {
 
 		// Lookup appUser in database by e-mail
 		AppUser appUserExists = userService.findByEmail(appUser.getEmail());
+		modelAndView.setViewName("register");
+		modelAndView.addObject("firstName", requestParams.get("firstName"));
+		modelAndView.addObject("lastName", requestParams.get("lastName"));
+		modelAndView.addObject("email", requestParams.get("email"));
 
 		if (appUserExists != null) {
-			modelAndView.addObject("alreadyRegisteredMessage", "Oops!  There is already a appUser registered with the email provided.");
-			modelAndView.setViewName("register");
 			bindingResult.reject("email");
+			redir.addFlashAttribute("errorMessage", "This email is already registered!");
 		}
 
-		if (bindingResult.hasErrors()) {
-			modelAndView.setViewName("register");
-		} else { // new appUser so we create appUser and send confirmation e-mail
-
+		if (!bindingResult.hasErrors()) {
+			// new appUser so we create appUser and send confirmation e-mail
 			// Disable appUser until they click on confirmation link in email
 			appUser.setEnabled(false);
 
@@ -74,7 +72,7 @@ public class AuthController {
 
 			Strength strength = passwordCheck.measure(requestParams.get("password"));
 
-			if (strength.getScore() < 3) {
+			if (strength.getScore() < 1) {
 				bindingResult.reject("password");
 
 				redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
@@ -85,7 +83,6 @@ public class AuthController {
 
 			// Set new password
 			appUser.setPassword(requestParams.get("password"));
-
 			userService.save(appUser);
 
 			String appUrl = request.getScheme() + "://" + request.getServerName();
@@ -111,55 +108,45 @@ public class AuthController {
 	public ModelAndView showConfirmationPage(ModelAndView modelAndView, @RequestParam("token") String token) {
 
 		AppUser appUser = userService.findByConfirmationToken(token);
-
+		modelAndView.setViewName("confirm");
 		if (appUser == null) { // No token found in DB
 			modelAndView.addObject("invalidToken", "Oops!  This is an invalid confirmation link.");
 		} else { // Token found
 			modelAndView.addObject("confirmationToken", appUser.getConfirmationToken());
-		}
+			// Set appUser to enabled
+			appUser.setEnabled(true);
 
-		modelAndView.setViewName("confirm");
-		return modelAndView;
-	}
+			// Save appUser
+			userService.save(appUser);
 
-	// Process confirmation link
-	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
-	public ModelAndView processConfirmationForm(
-					ModelAndView modelAndView,
-					@RequestParam Map<String, String> requestParams) {
-
-		modelAndView.setViewName("confirm");
-
-		// Find the appUser associated with the reset token
-		AppUser appUser = userService.findByConfirmationToken(requestParams.get("token"));
-
-		// Set appUser to enabled
-		appUser.setEnabled(true);
-
-		// Save appUser
-		userService.save(appUser);
-
-		modelAndView.addObject("successMessage", "Your email has been confirmed!");
-		return modelAndView;
-	}
-
-	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-	public ModelAndView showLoginPage(ModelAndView modelAndView) {
-		modelAndView.setViewName("login");
-		return modelAndView;
-	}
-
-	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.POST)
-	public ModelAndView processLoginForm(
-					ModelAndView modelAndView,
-					@RequestParam Map<String, String> requestParams) {
-
-		if (securityService.autologin(requestParams.get("email"), requestParams.get("password"))){
-			modelAndView.setViewName("welcome");
-		} else {
-			modelAndView.setViewName("login");
-			modelAndView.addObject("errorMessage", "Wrong login or password");
+			modelAndView.addObject("successMessage", "Your email has been confirmed!");
 		}
 		return modelAndView;
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login(
+					@RequestParam(value = "error", required = false) String error,
+					@RequestParam(value = "logout", required = false) String logout) {
+
+		ModelAndView model = new ModelAndView();
+		if (error != null) {
+			model.addObject("errorMessage", "Invalid username or password!");
+		}
+
+		if (logout != null) {
+			model.addObject("logoutMessage", "You've been logged out successfully.");
+		}
+		model.setViewName("login");
+
+		return model;
+	}
+
+	//TODO replace with homepage
+	@RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
+	public ModelAndView welcome() {
+		ModelAndView model =  new ModelAndView();
+		model.setViewName("welcome");
+		return model;
 	}
 }

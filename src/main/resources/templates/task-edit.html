@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task edit</title>
+    <style th:replace="~{css-script/css-template :: styles}"></style>
+</head>
+<body>
+
+<form th:action="@{'/task/task-save'}"
+      th:object="${task}" method="POST">
+
+    <table width="100%" cellspacing="10" cellpadding="10" border="1" style="border-collapse: collapse;">
+        <tr>
+            <td width="200" nowrap="nowrap">ID:</td>
+            <td width="100%"><input type="hidden" th:field="*{id}"/></td>
+        </tr>
+        <tr>
+            <td>
+                Наименование:
+            </td>
+            <td>
+                <input type="text" th:field="*{name}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Категория:
+            </td>
+            <td>
+                <input type="text" th:field="*{taskCategory}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Важность:
+            </td>
+            <td>
+                <input type="text" th:field="*{taskImportance}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Планируемое время начала:
+            </td>
+            <td>
+                <input type="text" placeholder="yyyy-mm-dd hh:mm"
+                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{plannedStartTime}"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Планируемое время окончания:
+            </td>
+            <td>
+                <input type="text" placeholder="yyyy-mm-dd hh:mm"
+                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{plannedEndTime}"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Фактическое время начала:
+            </td>
+            <td>
+                <input type="text" placeholder="yyyy-mm-dd hh:mm"
+                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{actualStartTime}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Фактическое время окончания:
+            </td>
+            <td>
+                <input type="text" placeholder="yyyy-mm-dd hh:mm"
+                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{actualEndTime}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Статус задачи:
+            </td>
+            <td>
+                <input type="text" th:field="*{taskStatus}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Комментарий:
+            </td>
+            <td>
+                <input type="text" th:field="*{taskComment}"/>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+    <button type="submit">Сохранить</button>
+
+</form>
+
+<form th:action="@{'/task/task-cancel'}" method="POST">
+    <button type="submit">Отмена</button>
+</form>
+
+<div th:replace="~{css-script/script-template :: scripts}"></div>
+</body>
+</html>

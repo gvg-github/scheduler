@@ -4,39 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Авторизация</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-          crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/style.css" th:href="@{/style.css}">
-
+    <style th:replace="~{css-script/css-template :: styles}"></style>
 </head>
 <body>
-
+    <header th:replace="header/non-auth :: header"></header>
     <div class="conteiner-fluid">
-        <header></header>
-        <main class="d-flex justify-content-center align-items-center" style="height:100vh">
-            <div id="auth-form" class="border border-primary rounded p-4">
+        <main class="d-flex justify-content-center">
+            <div class="border border-primary rounded p-4 mt-5">
                 <h3 class="mb-4">Введите данные для авторизации</h3>
-                <form th:action="@{/login}">
+                <form th:action="@{/login}" method="post">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Псевдоним</span>
+                            <span class="input-group-text">Почта</span>
                         </div>
-                        <input type="email" class="form-control" th:name="email" placeholder="kolya1985@email.com">
+                        <input name="email" type="email" class="form-control" placeholder="kolya1985@email.com">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Пароль</span>
                         </div>
-                        <input type="password" class="form-control" th:field="password" placeholder="****">
+                        <input name="password" type="password" class="form-control" placeholder="****">
                     </div>
                     <div class="row justify-content-center">
-                        <input type="submit" class="btn btn-primary" value="Отправить">
+                        <input name="submit" type="submit" class="btn btn-primary" value="Отправить">
                     </div>
                 </form>
                 <div id="errorMessage" class="text-danger" th:if="${errorMessage}">
@@ -45,15 +35,6 @@
             </div>
         </main>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+    <div th:replace="~{css-script/script-template :: scripts}"></div>
 </body>
 </html>

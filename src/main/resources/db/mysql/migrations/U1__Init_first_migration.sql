@@ -1,0 +1,10 @@
+
+DROP TABLE IF EXISTS `task`;
+
+DROP TABLE IF EXISTS `task_category`;
+
+DROP TABLE IF EXISTS `user_role`;
+
+DROP TABLE IF EXISTS `role`;
+
+DROP TABLE IF EXISTS `app_user`;

@@ -12,10 +12,10 @@
           href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/style.css" th:href="@{/style.css}">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/style.css}">
 </head>
 <body>
-    <header></header>
+    <header th:replace="header/auth :: header"></header>
     <div class="container-fluid">
         <main class="d-flex justify-content-center align-items-center" style="height: 80vh">
             <div class="border rounded p-4">
