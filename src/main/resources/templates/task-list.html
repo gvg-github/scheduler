@@ -22,8 +22,8 @@
                             </h3>
                             <div class="collapse" id="changeDate">
                                 <div class="card card-body">
-                                    <form class="input-group mb-3" th:action="@{/taskList/changeDate}">
-                                        <input class="form-control" type="date">
+                                    <form class="input-group mb-3" th:action="@{/task/change-date}">
+                                        <input class="form-control" name="newdate" type="date">
                                         <div class="input-group-append">
                                             <input type="submit" value="Перейти" class="btn btn-secondary" style="width: auto">
                                         </div>
@@ -77,21 +77,21 @@
                                 <td th:utext="${task.taskCategory.name}"></td>
                                 <td th:utext="${task.taskImportance}"></td>
                                 <td th:utext="${#dates.format(task.plannedStartTime, 'HH:mm')}"></td>
-                                <div th:if="${task.plannedDuration}">
-                                    <td th:utext="${#dates.format(task.plannedDuration, 'HH:mm')}"></td>
-                                </div>
-                                <div th:unless="${task.plannedDuration}">
-                                    <td></td>
-                                </div>
+                                <!--<div th:if="${task.plannedDuration}">-->
+                                    <!--<td th:utext="${#dates.format(task.plannedDuration, 'HH:mm')}"></td>-->
+                                <!--</div>-->
+                                <!--<div th:unless="${task.plannedDuration}">-->
+                                    <!--<td></td>-->
+                                <!--</div>-->
                                 <td th:utext="${#dates.format(task.plannedEndTime, 'HH:mm')}"></td>
                                 <td th:utext="${task.taskComment}"></td>
                                 <td th:utext="${#dates.format(task.actualStartTime, 'HH:mm')}"></td>
-                                <div th:if="${task.actualDuration}">
-                                    <td th:utext="${#dates.format(task.actualDuration, 'HH:mm')}"></td>
-                                </div>
-                                <div th:unless="${task.actualDuration}">
-                                    <td></td>
-                                </div>
+                                <!--<div th:if="${task.actualDuration}">-->
+                                    <!--<td th:utext="${#dates.format(task.actualDuration, 'HH:mm')}"></td>-->
+                                <!--</div>-->
+                                <!--<div th:unless="${task.actualDuration}">-->
+                                    <!--<td></td>-->
+                                <!--</div>-->
                                 <td th:utext="${#dates.format(task.actualEndTime, 'HH:mm')}"></td>
                                 <td>
                                     <form th:action="@{/task/edit}" th:method="post">
