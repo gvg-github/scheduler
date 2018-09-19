@@ -8,14 +8,14 @@
 </head>
 <body>
 
-    <header th:fragment="non-auth" class="navbar navbar-expand navbar-dark bg-primary">
+    <header th:fragment="non-auth" class="navbar navbar-expand navbar-dark bg-primary p-2">
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a th:replace="header-footer/header.html :: a-main"></a>
                 </li>
             </ul>
-            <div class="inner-a-m row">
+            <div class="inner-a-m d-flex">
                 <a role="button" th:href="@{/login}" class="btn btn-light " th:utext="Вход"></a>
                 <a role="button" th:href="@{/register}" class="btn btn-light" th:utext="Регистрация"></a>
                 <div th:replace="header-footer/header :: lenguage-selection"></div>
@@ -23,27 +23,27 @@
         </div>
     </header>
 
-    <header th:fragment="auth" class="navbar navbar-expand navbar-dark bg-primary">
+    <header th:fragment="auth" class="navbar navbar-expand navbar-dark bg-primary p-2">
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a th:replace="header-footer/header :: a-main"></a>
                 </li>
             </ul>
-            <div class="inner-a-m row align-items-center">
+            <div class="inner-a-m d-flex align-items-center">
                 <div th:if="${user}">
                     <span class="text-white" th:utext="${user.name}"></span>
                 </div>
                 <a class="btn btn-light" th:href="@{/user-profile}" th:utext="Профиль"></a>
                 <div th:replace="header-footer/header :: lenguage-selection"></div>
-                <a class="btn btn-outline-light" role="button" th:href="@{/logout}" th:utext="Выход"></a>
+                <a class="btn btn-outline-light mr-auto" role="button" th:href="@{/logout}" th:utext="Выход"></a>
             </div>
         </div>
     </header>
 
     <a th:fragment="a-main" class="btn btn-primary border-light" role="button" th:href="@{/}" th:utext="Главная"></a>
 
-    <div th:fragment="lenguage-selection" class="row m-auto align-items-center border border-light rounded ">
+    <div th:fragment="lenguage-selection" class="d-flex align-items-center border border-light rounded ">
         <div class="mr-1 pl-2">
             <span class="text-white">Язык:</span>
         </div>

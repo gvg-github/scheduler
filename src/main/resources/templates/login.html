@@ -11,22 +11,22 @@
     <div class="conteiner-fluid">
         <main class="d-flex justify-content-center">
             <div class="border border-primary rounded p-4 mt-5">
-                <h3 class="mb-5">Введите данные для авторизации</h3>
+                <h3 class="mb-4">Введите данные для авторизации</h3>
                 <form th:action="@{/login}" method="post">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Почта</span>
                         </div>
-                        <input name="email" type="email" class="form-control" placeholder="kolya1985@email.com">
+                        <input name="email" type="email" class="form-control" th:placeholder="'Введите почту'">
                     </div>
                     <div class="input-group mb-5">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Пароль</span>
                         </div>
-                        <input name="password" type="password" class="form-control" placeholder="****">
+                        <input name="password" type="password" class="form-control" th:placeholder="'Введите пароль'">
                     </div>
-                    <div class="row justify-content-around">
-                        <input name="submit" type="submit" class="btn btn-primary" th:value="Войти">
+                    <div class="d-flex justify-content-end">
+                        <input name="submit" type="submit" class="btn btn-primary mr-4" th:value="Войти">
                         <a th:href="@{/recovery-password}" class="btn btn-secondary disabled"
                            th:utext="'Забыли пароль?'"></a>
                     </div>
