@@ -9,12 +9,9 @@
 
 <form th:action="@{'/task/task-save'}"
       th:object="${task}" method="POST">
-
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{appUser.id}"/>
     <table width="100%" cellspacing="10" cellpadding="10" border="1" style="border-collapse: collapse;">
-        <tr>
-            <td width="200" nowrap="nowrap">ID:</td>
-            <td width="100%"><input type="hidden" th:field="*{id}"/></td>
-        </tr>
         <tr>
             <td>
                 Наименование:
@@ -28,7 +25,7 @@
                 Категория:
             </td>
             <td>
-                <input type="text" th:field="*{taskCategory}"/>
+                <input type="text" th:field="*{taskCategory.id}"/>
             </td>
         </tr>
         <tr>
@@ -96,6 +93,7 @@
     </table>
 
     <br/>
+    <!--<button type="submit" name="userId" th:value="${task.AppUser.id}">Сохранить</button>-->
     <button type="submit">Сохранить</button>
 
 </form>
