@@ -22,7 +22,43 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <mysql.driver.version>5.1.46</mysql.driver.version>
+        <mysql.server.database.driver>com.mysql.jdbc.Driver</mysql.server.database.driver>
+        <flyway.version>5.1.4</flyway.version>
+        <flyway.migrations.main.location>classpath:db/mysql/migrations</flyway.migrations.main.location>
+        <jpa.hibernate.mysql.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</jpa.hibernate.mysql.dialect>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>development</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.APP_ENV_PROFILE_NAME</name>
+                    <value>development</value>
+                </property>
+            </activation>
+            <properties>
+                <!-- Override only if necessary -->
+                <app.env.profile.name>${env.APP_ENV_PROFILE_NAME:development}</app.env.profile.name>
+                <app.server.port>${env.APP_SERVER_PORT:8080}</app.server.port>
+                <app.hibernate.ddl.auto>${env.APP_HIBERNATE_DDL_AUTO:create}</app.hibernate.ddl.auto>
+                <mysql.server.host>${env.MYSQL_SERVER_HOST:localhost}</mysql.server.host>
+                <mysql.server.port>${env.MYSQL_SERVER_PORT:13306}</mysql.server.port>
+                <mysql.server.dbname>${env.MYSQL_SERVER_DBNAME:gbscheduler}</mysql.server.dbname>
+                <mysql.server.username>${env.MYSQL_SERVER_USERNAME:root}</mysql.server.username>
+                <mysql.server.password>${env.MYSQL_SERVER_PASSWORD:qwerty}</mysql.server.password>
+                <mysql.server.url>jdbc:mysql://${env.MYSQL_SERVER_HOST:localhost}:${env.MYSQL_SERVER_PORT:13306}/${env.MYSQL_SERVER_DBNAME:gbscheduler}?useSSL=false</mysql.server.url>
+                <mail.server.host>${env.MAIL_SERVER_HOST:smtp.gmail.com}</mail.server.host>
+                <mail.server.encoding>${env.MAIL_SERVER_ENCODING:UTF-8}</mail.server.encoding>
+                <mail.server.port>${env.MAIL_SERVER_PORT:465}</mail.server.port>
+                <mail.server.username>${env.MAIL_SERVER_USERNAME:gbscheduler@gmail.com}</mail.server.username>
+                <mail.server.password>${env.MAIL_SERVER_PASSWORD:mailPass}</mail.server.password>
+                <mail.server.protocol>${env.MAIL_SERVER_PROTOCOL:smtp}</mail.server.protocol>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -36,6 +72,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.driver.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -89,6 +126,11 @@
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.2</version>
@@ -100,6 +142,30 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <profiles>
+                        <profile>${app.env.profile.name}</profile>
+                    </profiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <driver>${mysql.server.database.driver}</driver>
+                    <url>${mysql.server.url}</url>
+                    <user>${mysql.server.username}</user>
+                    <password>${mysql.server.password}</password>
+                    <schemas>
+                        <schema>${mysql.server.dbname}</schema>
+                    </schemas>
+                    <locations>
+                        <location>${flyway.migrations.main.location}</location>
+                    </locations>
+                    <encoding>UTF-8</encoding>
+                    <cleanOnValidationError>true</cleanOnValidationError>
+                </configuration>
             </plugin>
         </plugins>
     </build>
