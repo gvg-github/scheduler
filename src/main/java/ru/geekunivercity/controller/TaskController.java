@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekunivercity.entity.task.Task;
+import ru.geekunivercity.entity.task.TaskImportance;
 import ru.geekunivercity.entity.task.TaskStatus;
 import ru.geekunivercity.entity.user.AppUser;
 import ru.geekunivercity.service.task.TaskServiceImpl;
@@ -136,6 +137,11 @@ public class TaskController {
                 Task task = new Task();
                 task.setAppUser(user);
                 task.setTaskStatus(TaskStatus.AWAITS_EXECUTION);
+                task.setTaskImportance(TaskImportance.MEDIUM);
+                task.setPlannedStartTime(new Date());
+                task.setPlannedEndTime(new Date());
+                task.setActualStartTime(new Date());
+                task.setActualEndTime(new Date());
                 model.put("task", task);
                 return "task-edit";
             }
