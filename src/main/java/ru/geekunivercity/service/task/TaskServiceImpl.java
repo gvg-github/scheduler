@@ -225,7 +225,7 @@ public class TaskServiceImpl implements TaskService {
         calendarOfPlannedStartDate.setTime(plannedStartDate);
         return userTaskSet.stream()
                 .filter((task) -> {
-                    calendarOfActualStartTime.setTime(task.getActualStartTime());
+                    calendarOfActualStartTime.setTime(task.getPlannedStartTime());
                     return calendarOfActualStartTime.get(Calendar.YEAR) == calendarOfPlannedStartDate.get(Calendar.YEAR)
                             && calendarOfActualStartTime.get(Calendar.MONTH) == calendarOfPlannedStartDate.get(Calendar.MONTH)
                             && calendarOfActualStartTime.get(Calendar.DAY_OF_MONTH) == calendarOfPlannedStartDate.get(Calendar.DAY_OF_MONTH);

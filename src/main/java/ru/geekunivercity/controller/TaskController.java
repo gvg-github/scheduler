@@ -31,6 +31,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/task")
 public class TaskController {
+
+    private final Date defaultDate = new Date(0);
     /**
      * Сервис для работы с пользователями.
      */
@@ -57,7 +59,16 @@ public class TaskController {
             AppUser user = userService.findByEmail(userEmail);
             if (user != null) {
                 Date selectedDate = getDateForTask((new Date()).toString());
-                model.put("taskList", taskService.getTaskSetByPlannedStartDateAndAppUserId(selectedDate, user.getId()));
+                Set<Task> tasks = taskService.getTaskSetByPlannedStartDateAndAppUserId(selectedDate, user.getId());
+                for (Task value : tasks) {
+                    if (value.getActualStartTime().getTime() == defaultDate.getTime()) {
+                        value.setActualStartTime(null);
+                    }
+                    if (value.getActualEndTime().getTime() == defaultDate.getTime()) {
+                        value.setActualEndTime(null);
+                    }
+                }
+                model.put("taskList", tasks);
                 model.put("date", selectedDate);
                 return "task-list";
             }
@@ -140,8 +151,6 @@ public class TaskController {
                 task.setTaskImportance(TaskImportance.MEDIUM);
                 task.setPlannedStartTime(new Date());
                 task.setPlannedEndTime(new Date());
-                task.setActualStartTime(new Date());
-                task.setActualEndTime(new Date());
                 model.put("task", task);
                 return "task-edit";
             }
@@ -171,6 +180,12 @@ public class TaskController {
      */
     @RequestMapping(value = {"/task-save"}, method = RequestMethod.POST)
     public String taskSave(@ModelAttribute("task") Task task) {
+        if (task.getActualStartTime() == null) {
+            task.setActualStartTime(defaultDate);
+        }
+        if (task.getActualEndTime() == null) {
+            task.setActualEndTime(defaultDate);
+        }
         taskService.mergeTask(task);
         return "redirect:/task/task-list";
     }
