@@ -14,6 +14,7 @@ import ru.geekunivercity.entity.task.Task;
 import ru.geekunivercity.entity.task.TaskImportance;
 import ru.geekunivercity.entity.task.TaskStatus;
 import ru.geekunivercity.entity.user.AppUser;
+import ru.geekunivercity.service.task.TaskCategoryServiceImpl;
 import ru.geekunivercity.service.task.TaskServiceImpl;
 import ru.geekunivercity.service.appuser.AppUserServiceImpl;
 
@@ -31,8 +32,17 @@ import java.util.*;
 @Controller
 @RequestMapping("/task")
 public class TaskController {
-
+    /**
+     * Дата для подстановки по умолчанию.
+     */
     private final Date defaultDate = new Date(0);
+
+    /**
+     * Сервис для работы с категориями.
+     */
+    @Autowired
+    private TaskCategoryServiceImpl categoryService;
+
     /**
      * Сервис для работы с пользователями.
      */
@@ -151,6 +161,9 @@ public class TaskController {
                 task.setTaskImportance(TaskImportance.MEDIUM);
                 task.setPlannedStartTime(new Date());
                 task.setPlannedEndTime(new Date());
+                task.setActualStartTime(null);
+                task.setActualEndTime(null);
+                task.setTaskCategory(categoryService.findTaskCategories().get(0));
                 model.put("task", task);
                 return "task-edit";
             }
@@ -185,6 +198,9 @@ public class TaskController {
         }
         if (task.getActualEndTime() == null) {
             task.setActualEndTime(defaultDate);
+        }
+        if (task.getTaskCategory() == null) {
+            task.setTaskCategory(categoryService.findTaskCategories().get(0));
         }
         taskService.mergeTask(task);
         return "redirect:/task/task-list";

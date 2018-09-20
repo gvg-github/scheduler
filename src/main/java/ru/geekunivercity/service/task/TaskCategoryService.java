@@ -2,6 +2,7 @@ package ru.geekunivercity.service.task;
 
 import ru.geekunivercity.entity.task.TaskCategory;
 
+import java.util.List;
 import java.util.Set;
 
 public interface TaskCategoryService {
@@ -13,6 +14,8 @@ public interface TaskCategoryService {
     void deleteTaskCategory(TaskCategory taskCategory);
 
     TaskCategory findTaskCategoryById(String taskCategoryId);
+
+    List<TaskCategory> findTaskCategories();
 
     void deleteTaskCategoryById(String taskCategoryId);
 
