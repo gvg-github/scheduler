@@ -68,4 +68,6 @@ public interface TaskService {
     void setTaskComment(String taskComment, String taskId);
 
     void setTaskCategory(String taskCategoryId, String taskId);
+
+    Set<Task> getTaskSetByPlannedStartDateAndAppUserId(Date plannedStartDate, String appUserId);
 }

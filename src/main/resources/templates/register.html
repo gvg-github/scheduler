@@ -12,7 +12,7 @@
     <style th:replace="~{css-script/css-template :: styles}"></style>
 </head>
 <body>
-    <header th:replace="header/non-auth :: header"></header>
+    <header th:replace="header-footer/header :: non-auth"></header>
     <div class="conteiner-fluid">
         <main class="d-flex justify-content-center">
             <div class="border border-primary rounded p-4 mt-5">
@@ -44,7 +44,7 @@
                                 <span class="input-group-text" th:utext="Имя"></span>
                             </div>
                             <input type="text" th:field="*{firstName}"
-                                   placeholder="Ваня" class="form-control" required/>
+                                   th:placeholder="'Введите имя'" class="form-control" required/>
                         </div>
                         <!--<span class="glyphicon form-control-feedback"-->
                               <!--aria-hidden="true"></span>-->
@@ -58,7 +58,7 @@
                                 <span class="input-group-text" th:utext="Фамилия"></span>
                             </div>
                             <input type="text" th:field="*{lastName}"
-                                   placeholder="Пупкин" class="form-control" required/>
+                                   th:placeholder="'Введите фамилию'" class="form-control" required/>
                         </div>
                         <!--<span class="glyphicon form-control-feedback"-->
                               <!--aria-hidden="true"></span>-->
@@ -72,7 +72,7 @@
                                 <span class="input-group-text" th:utext="Почта"></span>
                             </div>
                             <input type="email" th:field="*{email}"
-                                   placeholder="vanya@google.com" class="form-control"
+                                   th:placeholder="'Введите почту'" class="form-control"
                                    data-error="This email address is invalid" required/>
                         </div>
                         <!--<span class="glyphicon form-control-feedback"-->
@@ -87,7 +87,7 @@
                                 <span class="input-group-text" th:utext="Пароль"></span>
                             </div>
                             <input name="password" type="password" id="password"
-                                   placeholder="******" class="form-control" required/>
+                                   th:placeholder="'Введите пароль'" class="form-control" required/>
                         </div>
                         <!--<span class="glyphicon"-->
                               <!--aria-hidden="true"></span>-->
@@ -101,7 +101,7 @@
                                 <span class="input-group-text" th:utext="'Повторите пароль'"></span>
                             </div>
                             <input type="password" class="form-control" id="signup-password-confirm"
-                                   placeholder="******"
+                                   th:placeholder="'Введите пароль'"
                                    name="ConfirmPassword" data-fv-notempty="true"
                                    data-fv-notempty-message="Please confirm password"
                                    data-fv-identical="true"
