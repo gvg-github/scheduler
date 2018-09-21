@@ -7,103 +7,116 @@
 </head>
 <body>
 
-<form th:action="@{'/task/task-save'}"
-      th:object="${task}" method="POST">
-
-    <table width="100%" cellspacing="10" cellpadding="10" border="1" style="border-collapse: collapse;">
-        <tr>
-            <td width="200" nowrap="nowrap">ID:</td>
-            <td width="100%"><input type="hidden" th:field="*{id}"/></td>
-        </tr>
-        <tr>
-            <td>
-                Наименование:
-            </td>
-            <td>
-                <input type="text" th:field="*{name}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Категория:
-            </td>
-            <td>
-                <input type="text" th:field="*{taskCategory}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Важность:
-            </td>
-            <td>
-                <input type="text" th:field="*{taskImportance}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Планируемое время начала:
-            </td>
-            <td>
-                <input type="text" placeholder="yyyy-mm-dd hh:mm"
-                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{plannedStartTime}"/>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                Планируемое время окончания:
-            </td>
-            <td>
-                <input type="text" placeholder="yyyy-mm-dd hh:mm"
-                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{plannedEndTime}"/>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                Фактическое время начала:
-            </td>
-            <td>
-                <input type="text" placeholder="yyyy-mm-dd hh:mm"
-                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{actualStartTime}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Фактическое время окончания:
-            </td>
-            <td>
-                <input type="text" placeholder="yyyy-mm-dd hh:mm"
-                       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}" th:field="*{actualEndTime}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Статус задачи:
-            </td>
-            <td>
-                <input type="text" th:field="*{taskStatus}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Комментарий:
-            </td>
-            <td>
-                <input type="text" th:field="*{taskComment}"/>
-            </td>
-        </tr>
-    </table>
-
-    <br/>
-    <button type="submit">Сохранить</button>
-
-</form>
-
-<form th:action="@{'/task/task-cancel'}" method="POST">
-    <button type="submit">Отмена</button>
-</form>
-
+<header th:replace="header-footer/header :: auth"></header>
+<div class="container-fluid">
+    <main class="d-flex justify-content-center">
+        <div class="border border-primary rounded p-4 my-5">
+            <h3 class="mb-4 align-center" th:utext="'Редактирование задачи'"></h3>
+            <form th:action="@{'/task/task-save'}"
+                  th:object="${task}" method="POST">
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{appUser.id}"/>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="Наименование"></span>
+                    </div>
+                    <input th:field="*{name}" type="text" class="form-control"
+                           th:placeholder="'Введите наименование'">
+                </div>
+                <div th:if="${categoryList}" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="categorySelect" th:utext="'Категория'"></label>
+                    </div>
+                    <select th:field="*{taskCategory}" class="custom-select" id="categorySelect">
+                        <div th:each="category:${categoryList}">
+                            <option th:value="${category}" th:utext="${category}"></option>
+                        </div>
+                    </select>
+                </div>
+                <div th:unless="${categoryList}" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="'Категория'"></span>
+                    </div>
+                    <input th:field="*{taskCategory}" type="text" class="form-control"
+                           th:placeholder="'Введите категорию'">
+                </div>
+                <div th:if="${importanceList}" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="importanceSelect" th:utext="'Важность'"></label>
+                    </div>
+                    <select th:field="*{taskImportance}" class="custom-select" id="importanceSelect">
+                        <div th:each="importance:${importanceList}">
+                            <option th:value="${importance}" th:utext="${importance.name}"></option>
+                        </div>
+                    </select>
+                </div>
+                <div th:unless="${importanceList}" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="Важность"></span>
+                    </div>
+                    <input th:field="*{taskImportance}" type="text" class="form-control"
+                           th:placeholder="'Введите важность'">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="'Планируемое время начала'"></span>
+                    </div>
+                    <input class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
+                    pattern="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}" th:field="*{plannedStartTime}"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="'Планируемое время окончания'"></span>
+                    </div>
+                    <input class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
+                           pattern="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}" th:field="*{plannedEndTime}"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="'Фактическое время начала'"></span>
+                    </div>
+                    <input class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
+                           pattern="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}" th:field="*{actualStartTime}"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="'Фактическое время окончания'"></span>
+                    </div>
+                    <input class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
+                           pattern="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}" th:field="*{actualEndTime}"/>
+                </div>
+                <div th:if="${statusList}" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="statusSelect" th:utext="'Статус'"></label>
+                    </div>
+                    <select th:field="*{taskStatus}" class="custom-select" id="statusSelect">
+                        <div th:each="status:${statusList}">
+                            <option th:value="${status}" th:utext="${status.name}"></option>
+                        </div>
+                    </select>
+                </div>
+                <div th:unless="${statusList}" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="Статус"></span>
+                    </div>
+                    <input th:field="*{taskStatus}" type="text" class="form-control"
+                           th:placeholder="'Введите статус выполнения'">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:utext="'Комментарий'"></span>
+                    </div>
+                    <textarea class="form-control" th:placeholder="'Введите комментарий'" th:field="*{taskComment}"></textarea>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                    <input name="submit" type="submit" class="btn btn-primary mr-2" th:value="'Сохранить'">
+                    <a th:href="@{/task/task-list}" class="btn btn-secondary"
+                       th:utext="'Отмена'"></a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
 <div th:replace="~{css-script/script-template :: scripts}"></div>
 </body>
 </html>

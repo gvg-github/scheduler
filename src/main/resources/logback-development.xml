@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <appender name="ROLLIN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>var/logs/scheduler.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>var/logs/scheduler.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>14</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{42} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="ROLLIN" />
+    </root>
+
+    <logger name="org.springframework.web" level="ERROR"/>
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+</configuration>

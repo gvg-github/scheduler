@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.geekunivercity.entity.task.TaskCategory;
 import ru.geekunivercity.repository.task.TaskCategoryRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -39,6 +40,16 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
         Optional<TaskCategory> opt = taskCategoryRepository.findById(taskCategoryId);
         if (opt.isPresent()) {
             return opt.get();
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TaskCategory> findTaskCategories() {
+        List<TaskCategory> list = taskCategoryRepository.findAll();
+        if (!list.isEmpty()) {
+            return list;
         }
         return null;
     }

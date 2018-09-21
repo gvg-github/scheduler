@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekunivercity.entity.task.Task;
+import ru.geekunivercity.entity.task.TaskImportance;
 import ru.geekunivercity.entity.task.TaskStatus;
 import ru.geekunivercity.entity.user.AppUser;
+import ru.geekunivercity.service.task.TaskCategoryServiceImpl;
 import ru.geekunivercity.service.task.TaskServiceImpl;
 import ru.geekunivercity.service.appuser.AppUserServiceImpl;
 
-import java.util.Date;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Контроллер для работы с задачами.
@@ -29,6 +32,17 @@ import java.util.Map;
 @Controller
 @RequestMapping("/task")
 public class TaskController {
+    /**
+     * Дата для подстановки по умолчанию.
+     */
+    private final Date defaultDate = new Date(0);
+
+    /**
+     * Сервис для работы с категориями.
+     */
+    @Autowired
+    private TaskCategoryServiceImpl categoryService;
+
     /**
      * Сервис для работы с пользователями.
      */
@@ -49,15 +63,67 @@ public class TaskController {
      */
     @RequestMapping(value = {"/task-list"}, method = RequestMethod.GET)
     public String tasksList(Map<String, Object> model) {
+
         String userEmail = getEmailAuthUser();
         if (!userEmail.equals("")) {
             AppUser user = userService.findByEmail(userEmail);
             if (user != null) {
-                model.put("taskList", taskService.getTaskSetByActualStartTimeAndAppUserId(new Date(), user.getId()));
+                Date selectedDate = getDateForTask((new Date()).toString());
+                Set<Task> tasks = taskService.getTaskSetByPlannedStartDateAndAppUserId(selectedDate, user.getId());
+                for (Task value : tasks) {
+                    if (value.getActualStartTime().getTime() == defaultDate.getTime()) {
+                        value.setActualStartTime(null);
+                    }
+                    if (value.getActualEndTime().getTime() == defaultDate.getTime()) {
+                        value.setActualEndTime(null);
+                    }
+                }
+                model.put("taskList", tasks);
+                model.put("date", selectedDate);
                 return "task-list";
             }
         }
         return "login";
+    }
+
+    /**
+     * Метод возвращает список задач с отбором по текущему пользователю и выбранной дате.
+     *
+     * @param model Список задач.
+     * @return Страница списка задач, страница списка задач с текущей датой, если не удалось определить дату,
+     * или страница логина, если не удалось определить текущего пользователя.
+     */
+    @RequestMapping(value = {"/change-date"}, method = RequestMethod.GET)
+    public String tasksListByDate(@RequestParam String newdate, Map<String, Object> model) {
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser user = userService.findByEmail(userEmail);
+            if (user != null) {
+                Date selectedDate = getDateForTask(newdate);
+                model.put("taskList", taskService.getTaskSetByPlannedStartDateAndAppUserId(selectedDate, user.getId()));
+                model.put("date", selectedDate);
+                return "task-list";
+            }
+        }
+        return "login";
+    }
+
+    /**
+     * Метод возвращает дату в заданном формате.
+     *
+     * @param stringDate Строковое представление даты.
+     * @return Дата.
+     */
+    private Date getDateForTask(String stringDate) {
+        Date selectedDate = new Date();
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        try {
+            selectedDate = format.parse(stringDate);
+        } catch (ParseException e) {
+            e.getLocalizedMessage();
+        }
+        return selectedDate;
     }
 
     /**
@@ -92,6 +158,12 @@ public class TaskController {
                 Task task = new Task();
                 task.setAppUser(user);
                 task.setTaskStatus(TaskStatus.AWAITS_EXECUTION);
+                task.setTaskImportance(TaskImportance.MEDIUM);
+                task.setPlannedStartTime(new Date());
+                task.setPlannedEndTime(new Date());
+                task.setActualStartTime(null);
+                task.setActualEndTime(null);
+                task.setTaskCategory(categoryService.findTaskCategories().get(0));
                 model.put("task", task);
                 return "task-edit";
             }
@@ -121,6 +193,15 @@ public class TaskController {
      */
     @RequestMapping(value = {"/task-save"}, method = RequestMethod.POST)
     public String taskSave(@ModelAttribute("task") Task task) {
+        if (task.getActualStartTime() == null) {
+            task.setActualStartTime(defaultDate);
+        }
+        if (task.getActualEndTime() == null) {
+            task.setActualEndTime(defaultDate);
+        }
+        if (task.getTaskCategory() == null) {
+            task.setTaskCategory(categoryService.findTaskCategories().get(0));
+        }
         taskService.mergeTask(task);
         return "redirect:/task/task-list";
     }
