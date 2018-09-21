@@ -26,10 +26,9 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="categorySelect" th:utext="'Категория'"></label>
                     </div>
-                    <select class="custom-select" id="categorySelect">
-                        <option selected th:utext="'Выберите категорию...'"></option>
+                    <select th:field="*{taskCategory}" class="custom-select" id="categorySelect">
                         <div th:each="category:${categoryList}">
-                            <option th:value="${category}" th:utext="${category.name}"></option>
+                            <option th:value="${category}" th:utext="${category}"></option>
                         </div>
                     </select>
                 </div>
@@ -44,8 +43,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="importanceSelect" th:utext="'Важность'"></label>
                     </div>
-                    <select class="custom-select" id="importanceSelect">
-                        <option selected th:utext="'Выберите степень важности...'"></option>
+                    <select th:field="*{taskImportance}" class="custom-select" id="importanceSelect">
                         <div th:each="importance:${importanceList}">
                             <option th:value="${importance}" th:utext="${importance.name}"></option>
                         </div>
@@ -90,8 +88,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="statusSelect" th:utext="'Статус'"></label>
                     </div>
-                    <select class="custom-select" id="statusSelect">
-                        <option selected th:utext="'Выберите статус выполнения...'"></option>
+                    <select th:field="*{taskStatus}" class="custom-select" id="statusSelect">
                         <div th:each="status:${statusList}">
                             <option th:value="${status}" th:utext="${status.name}"></option>
                         </div>

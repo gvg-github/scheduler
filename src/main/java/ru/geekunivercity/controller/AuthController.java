@@ -124,7 +124,7 @@ public class AuthController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = {"/","/login"}, method = RequestMethod.GET)
 	public ModelAndView login(
 					@RequestParam(value = "error", required = false) String error,
 					@RequestParam(value = "logout", required = false) String logout) {
@@ -143,10 +143,10 @@ public class AuthController {
 	}
 
 	//TODO replace with homepage
-	@RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
-	public ModelAndView welcome() {
-		ModelAndView model =  new ModelAndView();
-		model.setViewName("welcome");
-		return model;
-	}
+//	@RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
+//	public ModelAndView welcome() {
+//		ModelAndView model =  new ModelAndView();
+//		model.setViewName("welcome");
+//		return model;
+//	}
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="'Категории'"></title>
+    <style th:replace="~{css-script/css-template :: styles}"></style>
+</head>
+<body>
+    <header th:replace="header-footer/header :: auth"></header>
+    <div class="conteiner-fluid">
+        <main class="d-flex justify-content-center">
+            <div class="border border-primary rounded p-4 my-5">
+                <h4 class="align-center mb-4" th:utext="'Категории'"></h4>
+                    <form th:action="@{/task-category/task-category-save}" th:method="post" th:object="${taskCategory}">
+                        <input th:type="text" hidden th:field="*{id}">
+                        <div th:object="${taskCategory.appUser}">
+                            <input th:type="text" hidden th:field="*{id}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input style="width: 20rem" type="text" class="form-control" th:field="*{name}" th:placeholder="'Введите название новой категории'">
+                            <div class="input-group-append">
+                                <input type="submit" th:value="'Добавить'" class="btn btn-outline-primary">
+                            </div>
+                        </div>
+                    </form>
+                <div data-spy="scroll">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col" th:utext="'Название'"></th>
+                                <th scope="col" th:utext="'Редактирование'"></th>
+                                <th scope="col" th:utext="'Удаление'">Last</th>
+                            </tr>
+                        </thead>
+                        <tbody th:each="category : ${taskCategorySet}">
+                            <tr>
+                                <td th:utext="${category.name}"></td>
+                                <td>
+                                    <form th:action="@{/task-category/task-category-edit}" th:method="post">
+                                        <button class="btn btn-success" type="submit" name="taskCategoryId" th:value="${category.id}">
+                                            <i class="far fa-edit"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form th:action="@{/task-category/task-category-delete}" th:method="post">
+                                        <button class="btn btn-success" type="submit" name="taskCategoryId" th:value="${category.id}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer></footer>
+    <div th:replace="~{css-script/script-template :: scripts}"></div>
+</body>
+</html>
