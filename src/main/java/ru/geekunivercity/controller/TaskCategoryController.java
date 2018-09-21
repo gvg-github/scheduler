@@ -61,26 +61,54 @@ public class TaskCategoryController {
 
     @RequestMapping(value = {"/task-category-edit"}, method = RequestMethod.POST)
     public String editTaskCategory(@RequestParam("taskCategoryId") String taskCategoryId, Map<String, Object> model) {
-        TaskCategory taskCategory = taskCategoryService.findTaskCategoryById(taskCategoryId);
-        model.put("taskCategory", taskCategory);
-        return "task-category-edit";
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser appUser = appUserService.findByEmail(userEmail);
+            if (appUser != null) {
+                TaskCategory taskCategory = taskCategoryService.findTaskCategoryById(taskCategoryId);
+                model.put("taskCategory", taskCategory);
+                return "task-category-edit";
+            }
+        }
+        return "login";
     }
 
     @RequestMapping(value = {"/task-category-save"}, method = RequestMethod.POST)
     public String saveTaskCategory(@ModelAttribute("taskCategory") TaskCategory taskCategory) {
-        taskCategoryService.mergeTaskCategory(taskCategory);
-        return "redirect:/task-category/task-category-set";
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser appUser = appUserService.findByEmail(userEmail);
+            if (appUser != null) {
+                taskCategoryService.mergeTaskCategory(taskCategory);
+                return "redirect:/task-category/task-category-set";
+            }
+        }
+        return "login";
     }
 
     @RequestMapping(value = {"/task-category-edit-cancel"}, method = RequestMethod.POST)
     public String cancelTaskCategoryEditing() {
-        return "redirect:/task-category/task-category-set";
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser appUser = appUserService.findByEmail(userEmail);
+            if (appUser != null) {
+                return "redirect:/task-category/task-category-set";
+            }
+        }
+        return "login";
     }
 
     @RequestMapping(value = {"/task-category-delete"}, method = RequestMethod.POST)
     public String taskDelete(@RequestParam("taskCategoryId") String taskCategoryId) {
-        taskCategoryService.deleteTaskCategoryById(taskCategoryId);
-        return "redirect:/task-category/task-category-set";
+        String userEmail = getEmailAuthUser();
+        if (!userEmail.equals("")) {
+            AppUser appUser = appUserService.findByEmail(userEmail);
+            if (appUser != null) {
+                taskCategoryService.deleteTaskCategoryById(taskCategoryId);
+                return "redirect:/task-category/task-category-set";
+            }
+        }
+        return "login";
     }
 
     private String getEmailAuthUser() {
