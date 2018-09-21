@@ -35,7 +35,12 @@
     <div th:fragment="auth" class="navbar navbar-expand navbar-dark bg-primary p-2">
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <a class="btn btn-light" th:href="@{/task-category/task-category-set}" th:utext="'Категории'"></a>
+                <li class="nav-item mr-2">
+                    <a class="btn btn-light" th:href="@{/task/task-list}" th:utext="'Список задач'"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-light" th:href="@{/task-category/task-category-set}" th:utext="'Категории'"></a>
+                </li>
             </ul>
             <div class="inner-a-m d-flex align-items-center">
                 <div th:if="${user}">
