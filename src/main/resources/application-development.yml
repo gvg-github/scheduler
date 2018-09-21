@@ -17,8 +17,7 @@ info:
     version: @version@
 
 logging:
-  level.org.hibernate.SQL: DEBUG
-  level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  config: "classpath:logback-@app.env.profile.name@.xml"
 
 ## Spring config
 spring:
