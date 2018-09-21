@@ -33,85 +33,57 @@
                          class="validation-message alert alert-danger" role="alert"></div>
                     <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
                          class="validation-message alert alert-danger" role="alert"></div>
-                    <div class="form-group input-group has-feedback">
-                        <label th:if="${#fields.hasErrors('firstName')}"
-                               th:errors="*{firstName}" class="validation-message"></label>
-                        <!--<span class="input-group-addon">-->
-                            <!--<span class="glyphicon glyphicon-user"></span>-->
-                        <!--</span>-->
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" th:utext="Имя"></span>
-                            </div>
-                            <input type="text" th:field="*{firstName}"
-                                   th:placeholder="'Введите имя'" class="form-control" required/>
+                    <label th:if="${#fields.hasErrors('firstName')}"
+                           th:errors="*{firstName}" class="validation-message"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:utext="Имя"></span>
                         </div>
-                        <!--<span class="glyphicon form-control-feedback"-->
-                              <!--aria-hidden="true"></span>-->
+                        <input type="text" th:field="*{firstName}"
+                               th:placeholder="'Введите имя'" class="form-control" required/>
                     </div>
-                    <div class="form-group input-group has-feedback">
-                        <!--<span class="input-group-addon">-->
-                            <!--<span class="glyphicon glyphicon-user"></span>-->
-                        <!--</span>-->
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" th:utext="Фамилия"></span>
-                            </div>
-                            <input type="text" th:field="*{lastName}"
-                                   th:placeholder="'Введите фамилию'" class="form-control" required/>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:utext="Фамилия"></span>
                         </div>
-                        <!--<span class="glyphicon form-control-feedback"-->
-                              <!--aria-hidden="true"></span>-->
+                        <input type="text" th:field="*{lastName}"
+                               th:placeholder="'Введите фамилию'" class="form-control" required/>
                     </div>
-                    <div class="form-group input-group has-feedback">
-                        <!--<span class="input-group-addon">-->
-                            <!--<span class="glyphicon glyphicon-envelope"></span>-->
-                        <!--</span>-->
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" th:utext="Почта"></span>
-                            </div>
-                            <input type="email" th:field="*{email}"
-                                   th:placeholder="'Введите почту'" class="form-control"
-                                   data-error="This email address is invalid" required/>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:utext="Почта"></span>
                         </div>
-                        <!--<span class="glyphicon form-control-feedback"-->
-                              <!--aria-hidden="true"></span>-->
+                        <input type="email" th:field="*{email}"
+                               th:placeholder="'Введите почту'" class="form-control"
+                               data-error="This email address is invalid" required/>
                     </div>
-                    <div class="form-group input-group">
-                        <!--<span class="input-group-addon">-->
-                            <!--<span class="glyphicon glyphicon-lock"></span>-->
-                        <!--</span>-->
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" th:utext="Пароль"></span>
-                            </div>
-                            <input name="password" type="password" id="password"
-                                   th:placeholder="'Введите пароль'" class="form-control" required/>
-                        </div>
-                        <!--<span class="glyphicon"-->
-                              <!--aria-hidden="true"></span>-->
+                    <div style="width: 20rem; color: #007bff;">
+                        <span th:utext="'Пароль должен содержать буквы латинского алфавита и цифры'"></span>
                     </div>
-                    <div class="form-group input-group has-feedback">
-                        <!--<span class="input-group-addon">-->
-                            <!--<span class="glyphicon glyphicon-lock"></span>-->
-                        <!--</span>-->
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" th:utext="'Повторите пароль'"></span>
-                            </div>
-                            <input type="password" class="form-control" id="signup-password-confirm"
-                                   th:placeholder="'Введите пароль'"
-                                   name="ConfirmPassword" data-fv-notempty="true"
-                                   data-fv-notempty-message="Please confirm password"
-                                   data-fv-identical="true"
-                                   data-fv-identical-field="password"
-                                   data-fv-identical-message="Both passwords must be identical"/>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:utext="Пароль"></span>
                         </div>
+                        <input name="password" type="password" id="password"
+                               th:placeholder="'Введите пароль'" class="form-control" required/>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:utext="'Повторите пароль'"></span>
+                        </div>
+                        <input type="password" class="form-control" id="signup-password-confirm"
+                               th:placeholder="'Введите пароль'"
+                               name="ConfirmPassword" data-fv-notempty="true"
+                               data-fv-notempty-message="Please confirm password"
+                               data-fv-identical="true"
+                               data-fv-identical-field="password"
+                               data-fv-identical-message="Both passwords must be identical"/>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary" th:utext="Отправить"></button>
+                    </div>
 
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <button type="submit" class="btn btn-primary block full-width m-b" th:utext="Отправить"></button>
+                    <div class="help-block with-errors"></div>
                 </form>
             </div>
         </main>

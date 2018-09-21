@@ -37,6 +37,9 @@ public class TaskCategoryController {
         if (!userEmail.equals("")) {
             AppUser appUser = appUserService.findByEmail(userEmail);
             if (appUser != null) {
+                TaskCategory taskCategory = new TaskCategory();
+                taskCategory.setAppUser(appUser);
+                model.put("taskCategory", taskCategory);
                 model.put("taskCategorySet", taskCategoryService.getTaskCategorySetByAppUserId(appUser.getId()));
                 return "task-category-set";
             }

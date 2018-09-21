@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style th:replace="~{css-script/css-template :: styles}"></style>
+</head>
+<body>
+    <header th:replace="header-footer/header :: auth"></header>
+    <div class="conteiner-fluid">
+        <main class="d-flex justify-content-center">
+            <div class="border border-primary rounded p-4 my-5">
+                <h4 class="align-center mb-4" th:utext="'Редактирование категории'"></h4>
+                <form th:action="@{/task-category/task-category-save}" th:method="post" th:object="${taskCategory}">
+                    <input th:type="text" hidden th:field="*{id}">
+                    <div th:object="${taskCategory.appUser}">
+                        <input th:type="text" hidden th:field="*{id}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" th:field="*{name}"
+                               th:placeholder="'Введите новое название категории'">
+                        <div class="input-group-append">
+                            <input type="submit" th:value="'Изменить'" class="btn btn-outline-primary">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <footer></footer>
+    <div th:replace="~{css-script/script-template :: scripts}"></div>
+</body>
+</html>
