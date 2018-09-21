@@ -3,10 +3,10 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: gbscheduler
-      MYSQL_USER: ${MYSQL_SERVER_USERNAME}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_SERVER_PASSWORD}
+      MYSQL_DATABASE: ${APP_GBSCHEDULER_MYSQL_SERVER_DBNAME}
+      MYSQL_USER: ${APP_GBSCHEDULER_MYSQL_SERVER_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${APP_GBSCHEDULER_MYSQL_SERVER_PASSWORD}
     ports:
-    - "${MYSQL_SERVER_PORT}:3306"
+    - "${APP_GBSCHEDULER_MYSQL_SERVER_PORT}:3306"
     volumes:
     - ./var/data/mysql:/var/lib/mysql

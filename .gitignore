@@ -28,8 +28,10 @@
 /src/main/resources/application-prod*.properties
 
 var/*
-!var
-var/data/*
 !var/data
-var/data/mysql/*
+var/data/*
 !var/data/mysql
+var/data/mysql/*
+!var/logs
+var/logs/*
+!.gitkeep
