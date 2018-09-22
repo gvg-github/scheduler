@@ -38,6 +38,11 @@ public class TaskController {
     private final Date defaultDate = new Date(0);
 
     /**
+     * Хранилище выбранной даты пользователя.
+     */
+    private Map<String, Date> userDates = new HashMap<>();
+
+    /**
      * Сервис для работы с категориями.
      */
     @Autowired
@@ -68,8 +73,11 @@ public class TaskController {
         if (!userEmail.equals("")) {
             AppUser user = userService.findByEmail(userEmail);
             if (user != null) {
-                Date selectedDate = getDateForTask((new Date()).toString());
-                Set<Task> tasks = taskService.getTaskSetByPlannedStartDateAndAppUserId(selectedDate, user.getId());
+                Date date = new Date();
+                if (userDates.containsKey(userEmail)) {
+                    date = userDates.get(userEmail);
+                }
+                Set<Task> tasks = taskService.getTaskSetByPlannedStartDateAndAppUserId(date, user.getId());
                 for (Task value : tasks) {
                     if (value.getActualStartTime().getTime() == defaultDate.getTime()) {
                         value.setActualStartTime(null);
@@ -79,7 +87,7 @@ public class TaskController {
                     }
                 }
                 model.put("taskList", tasks);
-                model.put("date", selectedDate);
+                model.put("date", date);
                 return "task-list";
             }
         }
@@ -89,7 +97,8 @@ public class TaskController {
     /**
      * Метод возвращает список задач с отбором по текущему пользователю и выбранной дате.
      *
-     * @param model Список задач.
+     * @param newdate Выбранная дата.
+     * @param model   Список задач.
      * @return Страница списка задач, страница списка задач с текущей датой, если не удалось определить дату,
      * или страница логина, если не удалось определить текущего пользователя.
      */
@@ -100,6 +109,7 @@ public class TaskController {
             AppUser user = userService.findByEmail(userEmail);
             if (user != null) {
                 Date selectedDate = getDateForTask(newdate);
+                userDates.put(userEmail, selectedDate);
                 model.put("taskList", taskService.getTaskSetByPlannedStartDateAndAppUserId(selectedDate, user.getId()));
                 model.put("date", selectedDate);
                 return "task-list";
@@ -163,7 +173,9 @@ public class TaskController {
                 task.setPlannedEndTime(new Date());
                 task.setActualStartTime(null);
                 task.setActualEndTime(null);
-                task.setTaskCategory(categoryService.findTaskCategories().get(0));
+                model.put("categoryList", categoryService.findTaskCategories());
+                model.put("importanceList", TaskImportance.values());
+                model.put("statusList", TaskStatus.values());
                 model.put("task", task);
                 return "task-edit";
             }
@@ -180,8 +192,17 @@ public class TaskController {
      */
     @RequestMapping(value = {"/edit"}, method = RequestMethod.POST)
     public String taskEdit(@RequestParam("taskId") String taskId, Map<String, Object> model) {
-        final Task task = taskService.findTaskById(taskId);
+        Task task = taskService.findTaskById(taskId);
+        if (task.getActualStartTime().getTime() == defaultDate.getTime()) {
+            task.setActualStartTime(null);
+        }
+        if (task.getActualEndTime().getTime() == defaultDate.getTime()) {
+            task.setActualEndTime(null);
+        }
         model.put("task", task);
+        model.put("categoryList", categoryService.findTaskCategories());
+        model.put("importanceList", TaskImportance.values());
+        model.put("statusList", TaskStatus.values());
         return "task-edit";
     }
 
@@ -192,15 +213,12 @@ public class TaskController {
      * @return Страница списка задач.
      */
     @RequestMapping(value = {"/task-save"}, method = RequestMethod.POST)
-    public String taskSave(@ModelAttribute("task") Task task) {
+    public String taskSave(@ModelAttribute("task") Task task, Map<String, Object> model) {
         if (task.getActualStartTime() == null) {
             task.setActualStartTime(defaultDate);
         }
         if (task.getActualEndTime() == null) {
             task.setActualEndTime(defaultDate);
-        }
-        if (task.getTaskCategory() == null) {
-            task.setTaskCategory(categoryService.findTaskCategories().get(0));
         }
         taskService.mergeTask(task);
         return "redirect:/task/task-list";
@@ -227,5 +245,4 @@ public class TaskController {
         taskService.deleteTaskById(taskId);
         return "redirect:/task/task-list";
     }
-
 }

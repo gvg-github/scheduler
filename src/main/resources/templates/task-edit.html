@@ -20,7 +20,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" th:utext="Наименование"></span>
                     </div>
-                    <input th:field="*{name}" type="text" class="form-control"
+                    <input required th:field="*{name}" type="text" class="form-control"
                            th:placeholder="'Введите наименование'">
                 </div>
                 <div th:if="${categoryList}" class="input-group mb-3">
@@ -29,7 +29,7 @@
                     </div>
                     <select th:field="*{taskCategory}" class="custom-select" id="categorySelect">
                         <div th:each="category:${categoryList}">
-                            <option th:value="${category}" th:utext="${category}"></option>
+                            <option th:value="${category.id}" th:utext="${category.name}"></option>
                         </div>
                     </select>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" th:utext="'Категория'"></span>
                     </div>
-                    <input th:field="*{taskCategory}" type="text" class="form-control"
+                    <input required th:field="*{taskCategory}" type="text" class="form-control"
                            th:placeholder="'Введите категорию'">
                 </div>
                 <div th:if="${importanceList}" class="input-group mb-3">
@@ -54,21 +54,21 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" th:utext="Важность"></span>
                     </div>
-                    <input th:field="*{taskImportance}" type="text" class="form-control"
+                    <input required th:field="*{taskImportance}" type="text" class="form-control"
                            th:placeholder="'Введите важность'">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" th:utext="'Планируемое время начала'"></span>
                     </div>
-                    <input class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
+                    <input required class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
                     pattern="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}" th:field="*{plannedStartTime}"/>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" th:utext="'Планируемое время окончания'"></span>
                     </div>
-                    <input class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
+                    <input required class="form-control" type="datetime" placeholder="yyyy-mm-dd HH:mm"
                            pattern="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}" th:field="*{plannedEndTime}"/>
                 </div>
                 <div class="input-group mb-3">
@@ -99,7 +99,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" th:utext="Статус"></span>
                     </div>
-                    <input th:field="*{taskStatus}" type="text" class="form-control"
+                    <input required th:field="*{taskStatus}" type="text" class="form-control"
                            th:placeholder="'Введите статус выполнения'">
                 </div>
                 <div class="input-group mb-3">
