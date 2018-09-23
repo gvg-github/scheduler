@@ -36,7 +36,7 @@
         <mysql.server.dbname>${APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:gbscheduler}</mysql.server.dbname>
         <mysql.server.username>${APP_GBSCHEDULER_MYSQL_SERVER_USERNAME:root}</mysql.server.username>
         <mysql.server.password>${APP_GBSCHEDULER_MYSQL_SERVER_PASSWORD:qwerty}</mysql.server.password>
-        <mysql.server.url>${APP_GBSCHEDULER_MYSQL_SERVER_URL}</mysql.server.url>
+        <mysql.server.url>${APP_GBSCHEDULER_MYSQL_SERVER_URL:jdbc:mysql://localhost:13306/gbscheduler?useSSL=false}</mysql.server.url>
         <mail.server.host>${APP_GBSCHEDULER_MAIL_SERVER_HOST:smtp.gmail.com}</mail.server.host>
         <mail.server.encoding>${APP_GBSCHEDULER_MAIL_SERVER_ENCODING:UTF-8}</mail.server.encoding>
         <mail.server.port>${APP_GBSCHEDULER_MAIL_SERVER_PORT:465}</mail.server.port>
