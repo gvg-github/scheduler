@@ -34,10 +34,6 @@
             <id>development</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>APP_GBSCHEDULER_ENV_PROFILE_NAME</name>
-                    <value>development</value>
-                </property>
             </activation>
             <properties>
                 <!-- Override only if necessary -->
@@ -66,12 +62,6 @@
         </profile>
         <profile>
             <id>production</id>
-            <activation>
-                <property>
-                    <name>APP_GBSCHEDULER_ENV_PROFILE_NAME</name>
-                    <value>production</value>
-                </property>
-            </activation>
             <properties>
                 <!-- Override only if necessary -->
                 <app.env.profile.name>${APP_GBSCHEDULER_ENV_PROFILE_NAME:production}</app.env.profile.name>
