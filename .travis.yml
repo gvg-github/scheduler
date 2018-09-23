@@ -12,7 +12,7 @@ deploy:
     secure: ${HEROKU_AUTH_API_KEY}
   app: gbscheduler
   skip_cleanup: true
-  on: feature-deploy-heroku
+  on: master
   strategy: git
   run:
-    - ./mvnw clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - cd /app && ./mvnw clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V

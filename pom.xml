@@ -35,27 +35,60 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>env.APP_GBSCHEDULER_ENV_PROFILE_NAME</name>
+                    <name>APP_GBSCHEDULER_ENV_PROFILE_NAME</name>
                     <value>development</value>
                 </property>
             </activation>
             <properties>
                 <!-- Override only if necessary -->
-                <app.env.profile.name>${env.APP_GBSCHEDULER_ENV_PROFILE_NAME:development}</app.env.profile.name>
-                <app.server.port>${env.APP_GBSCHEDULER_SERVER_PORT:8080}</app.server.port>
-                <app.hibernate.ddl.auto>${env.APP_GBSCHEDULER_HIBERNATE_DDL_AUTO:create}</app.hibernate.ddl.auto>
-                <mysql.server.host>${env.APP_GBSCHEDULER_MYSQL_SERVER_HOST:localhost}</mysql.server.host>
-                <mysql.server.port>${env.APP_GBSCHEDULER_MYSQL_SERVER_PORT:13306}</mysql.server.port>
-                <mysql.server.dbname>${env.APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:gbscheduler}</mysql.server.dbname>
-                <mysql.server.username>${env.APP_GBSCHEDULER_MYSQL_SERVER_USERNAME:root}</mysql.server.username>
-                <mysql.server.password>${env.APP_GBSCHEDULER_MYSQL_SERVER_PASSWORD:qwerty}</mysql.server.password>
-                <mysql.server.url>jdbc:mysql://${env.APP_GBSCHEDULER_MYSQL_SERVER_HOST:localhost}:${env.APP_GBSCHEDULER_MYSQL_SERVER_PORT:13306}/${env.APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:gbscheduler}?useSSL=false</mysql.server.url>
-                <mail.server.host>${env.APP_GBSCHEDULER_MAIL_SERVER_HOST:smtp.gmail.com}</mail.server.host>
-                <mail.server.encoding>${env.APP_GBSCHEDULER_MAIL_SERVER_ENCODING:UTF-8}</mail.server.encoding>
-                <mail.server.port>${env.APP_GBSCHEDULER_MAIL_SERVER_PORT:465}</mail.server.port>
-                <mail.server.username>${env.APP_GBSCHEDULER_MAIL_SERVER_USERNAME:gbscheduler@gmail.com}</mail.server.username>
-                <mail.server.password>${env.APP_GBSCHEDULER_MAIL_SERVER_PASSWORD:mailPass}</mail.server.password>
-                <mail.server.protocol>${env.APP_GBSCHEDULER_MAIL_SERVER_PROTOCOL:smtp}</mail.server.protocol>
+                <app.env.profile.name>${APP_GBSCHEDULER_ENV_PROFILE_NAME:development}</app.env.profile.name>
+                <app.server.port>${APP_GBSCHEDULER_SERVER_PORT:8080}</app.server.port>
+                <app.hibernate.ddl.auto>${APP_GBSCHEDULER_HIBERNATE_DDL_AUTO:create}</app.hibernate.ddl.auto>
+                <mysql.server.host>${APP_GBSCHEDULER_MYSQL_SERVER_HOST:localhost}</mysql.server.host>
+                <mysql.server.port>${APP_GBSCHEDULER_MYSQL_SERVER_PORT:13306}</mysql.server.port>
+                <mysql.server.dbname>${APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:gbscheduler}</mysql.server.dbname>
+                <mysql.server.username>${APP_GBSCHEDULER_MYSQL_SERVER_USERNAME:root}</mysql.server.username>
+                <mysql.server.password>${APP_GBSCHEDULER_MYSQL_SERVER_PASSWORD:qwerty}</mysql.server.password>
+                <mysql.server.url>jdbc:mysql://${APP_GBSCHEDULER_MYSQL_SERVER_HOST:localhost}:${APP_GBSCHEDULER_MYSQL_SERVER_PORT:13306}/${APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:gbscheduler}?useSSL=false</mysql.server.url>
+                <mail.server.host>${APP_GBSCHEDULER_MAIL_SERVER_HOST:smtp.gmail.com}</mail.server.host>
+                <mail.server.encoding>${APP_GBSCHEDULER_MAIL_SERVER_ENCODING:UTF-8}</mail.server.encoding>
+                <mail.server.port>${APP_GBSCHEDULER_MAIL_SERVER_PORT:465}</mail.server.port>
+                <mail.server.username>${APP_GBSCHEDULER_MAIL_SERVER_USERNAME:gbscheduler@gmail.com}</mail.server.username>
+                <mail.server.password>${APP_GBSCHEDULER_MAIL_SERVER_PASSWORD:mailPass}</mail.server.password>
+                <mail.server.protocol>${APP_GBSCHEDULER_MAIL_SERVER_PROTOCOL:smtp}</mail.server.protocol>
+                <logging.level.root>WARN</logging.level.root>
+                <logging.level.org.springframework.web>ERROR</logging.level.org.springframework.web>
+                <logging.level.org.hibernate>ERROR</logging.level.org.hibernate>
+                <logging.level.org.hibernate.sql>DEBUG</logging.level.org.hibernate.sql>
+                <logging.level.org.hibernate.type.descriptor.sql.BasicBinder>TRACE</logging.level.org.hibernate.type.descriptor.sql.BasicBinder>
+                <logging.level.ru.geekunivercity>DEBUG</logging.level.ru.geekunivercity>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <activation>
+                <property>
+                    <name>APP_GBSCHEDULER_ENV_PROFILE_NAME</name>
+                    <value>production</value>
+                </property>
+            </activation>
+            <properties>
+                <!-- Override only if necessary -->
+                <app.env.profile.name>${APP_GBSCHEDULER_ENV_PROFILE_NAME:production}</app.env.profile.name>
+                <app.server.port>${APP_GBSCHEDULER_SERVER_PORT:80}</app.server.port>
+                <app.hibernate.ddl.auto>${APP_GBSCHEDULER_HIBERNATE_DDL_AUTO:none}</app.hibernate.ddl.auto>
+                <mysql.server.host>${APP_GBSCHEDULER_MYSQL_SERVER_HOST:localhost}</mysql.server.host>
+                <mysql.server.port>${APP_GBSCHEDULER_MYSQL_SERVER_PORT}</mysql.server.port>
+                <mysql.server.dbname>${APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:dbname}</mysql.server.dbname>
+                <mysql.server.username>${APP_GBSCHEDULER_MYSQL_SERVER_USERNAME}</mysql.server.username>
+                <mysql.server.password>${APP_GBSCHEDULER_MYSQL_SERVER_PASSWORD}</mysql.server.password>
+                <mysql.server.url>${APP_GBSCHEDULER_MYSQL_SERVER_URL}</mysql.server.url>
+                <mail.server.host>${APP_GBSCHEDULER_MAIL_SERVER_HOST:localhost}</mail.server.host>
+                <mail.server.encoding>${APP_GBSCHEDULER_MAIL_SERVER_ENCODING:UTF-8}</mail.server.encoding>
+                <mail.server.port>${APP_GBSCHEDULER_MAIL_SERVER_PORT}</mail.server.port>
+                <mail.server.username>${APP_GBSCHEDULER_MAIL_SERVER_USERNAME}</mail.server.username>
+                <mail.server.password>${APP_GBSCHEDULER_MAIL_SERVER_PASSWORD}</mail.server.password>
+                <mail.server.protocol>${APP_GBSCHEDULER_MAIL_SERVER_PROTOCOL}</mail.server.protocol>
                 <logging.level.root>WARN</logging.level.root>
                 <logging.level.org.springframework.web>ERROR</logging.level.org.springframework.web>
                 <logging.level.org.hibernate>ERROR</logging.level.org.hibernate>
