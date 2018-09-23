@@ -15,13 +15,13 @@
         </encoder>
     </appender>
 
-    <root level="WARN">
+    <root level="ERROR">
         <appender-ref ref="ROLLIN" />
     </root>
 
     <logger name="org.springframework.web" level="ERROR"/>
     <logger name="org.hibernate" level="ERROR"/>
-    <logger name="org.hibernate.SQL" level="DEBUG"/>
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
-    <logger name="ru.geekunivercity" level="DEBUG"/>
+    <logger name="org.hibernate.SQL" level="ERROR"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="ERROR"/>
+    <logger name="ru.geekunivercity" level="ERROR"/>
 </configuration>
