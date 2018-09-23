@@ -1,5 +1,5 @@
 server:
-  port: @app.server.port@
+  port: ${PORT:8080}
 
 ## Testing Actuator
 management:
