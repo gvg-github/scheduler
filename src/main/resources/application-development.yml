@@ -21,6 +21,12 @@ logging:
 
 ## Spring config
 spring:
+  mandatory-file-encoding: UTF-8
+
+  http:
+    encoding.charset: UTF-8
+    encoding.enabled: true
+
   ##  SMTP EMAIL params
   mail:
     default-encoding: @mail.server.encoding@
