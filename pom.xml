@@ -30,7 +30,7 @@
 
         <app.env.profile.name>${APP_GBSCHEDULER_ENV_PROFILE_NAME:development}</app.env.profile.name>
         <app.server.port>${PORT:8080}</app.server.port>
-        <app.hibernate.ddl.auto>${APP_GBSCHEDULER_HIBERNATE_DDL_AUTO:create}</app.hibernate.ddl.auto>
+        <app.hibernate.ddl.auto>${APP_GBSCHEDULER_HIBERNATE_DDL_AUTO:update}</app.hibernate.ddl.auto>
         <mysql.server.host>${APP_GBSCHEDULER_MYSQL_SERVER_HOST:localhost}</mysql.server.host>
         <mysql.server.port>${APP_GBSCHEDULER_MYSQL_SERVER_PORT:13306}</mysql.server.port>
         <mysql.server.dbname>${APP_GBSCHEDULER_MYSQL_SERVER_DBNAME:gbscheduler}</mysql.server.dbname>
